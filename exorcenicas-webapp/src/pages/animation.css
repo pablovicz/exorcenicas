@@ -113,19 +113,19 @@
     }
 
     25%{
-        transform: translateY(-300) rotate(180deg);
+        transform: translateY(-300) rotate(60deg);
         opacity: 0.3;
         border-radius: 0;
     }
 
     50%{
-        transform: translateY(-600px) rotate(345deg);
+        transform: translateY(-600px) rotate(-30deg);
         opacity: 0.2;
         border-radius: 0;
     }
 
     100%{
-        transform: translateY(-1000px) rotate(720deg);
+        transform: translateY(-1000px) rotate(60deg);
         opacity: 0;
         border-radius: 50%;
     }

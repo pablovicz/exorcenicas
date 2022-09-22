@@ -87,12 +87,12 @@ export function HomePage() {
                     },
                     /* Handle */
                     '::-webkit-scrollbar-thumb': {
-                        'background': theme.colors.gray[600],
+                        'background': theme.colors.gray[800],
                         'borderRadius': '10px'
                     },
                     /* Handle on hover */
                     '::-webkit-scrollbar-thumb:hover': {
-                        'background': 'red'
+                        'background': theme.colors.app.primary
                     }
                 }}
             >
