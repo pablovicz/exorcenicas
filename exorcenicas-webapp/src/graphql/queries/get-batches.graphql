@@ -1,5 +1,5 @@
 query GetBatches {
-  batches(stage: PUBLISHED) {
+  batches(stage: DRAFT) {
     id
     amount
     price

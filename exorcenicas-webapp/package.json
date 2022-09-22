@@ -14,11 +14,16 @@
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@hookform/resolvers": "^2.9.8",
+    "axios": "^0.27.2",
     "framer-motion": "^6.3.16",
     "graphql": "^16.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.4.0"
+    "react-hook-form": "^7.36.0",
+    "react-icons": "^4.4.0",
+    "react-input-mask": "^2.0.4",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.8.0",
@@ -27,7 +32,12 @@
     "@graphql-codegen/typescript-react-apollo": "^3.3.1",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
+    "@types/react-input-mask": "^3.0.1",
     "@vitejs/plugin-react": "^2.1.0",
+    "filepond": "^4.30.4",
+    "filepond-plugin-image-exif-orientation": "^1.0.11",
+    "filepond-plugin-image-preview": "^4.6.11",
+    "react-filepond": "^7.1.2",
     "typescript": "^4.6.4",
     "vite": "^3.1.0"
   }

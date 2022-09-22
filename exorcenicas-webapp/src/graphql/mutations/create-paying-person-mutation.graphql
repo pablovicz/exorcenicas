@@ -1,0 +1,7 @@
+mutation createPayingPerson($name: String!, $document: String!, $batch: String!, $price: String!, $receiptId: ID!) {
+  createPayingPerson(
+    data: {name: $name, document: $document, batch: $batch, price: $price, receipt: {connect: {id: $receiptId}}}
+  ) {
+    id
+  }
+}

@@ -2036,6 +2036,8 @@ export type PageInfo = {
 /** Pessoas que compraram ingresso */
 export type PayingPerson = Node & {
   __typename?: 'PayingPerson';
+  /** Lote de compra */
+  batch: Scalars['String'];
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
   /** User that created this document */
@@ -2050,12 +2052,14 @@ export type PayingPerson = Node & {
   id: Scalars['ID'];
   /** Nome da pessoa */
   name: Scalars['String'];
+  /** Valor a ser pago */
+  price: Scalars['String'];
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']>;
   /** User that last published this document */
   publishedBy?: Maybe<User>;
   /** Comprovante de pagamento */
-  receipt?: Maybe<Asset>;
+  receipt: Asset;
   scheduledIn: Array<ScheduledOperation>;
   /** System stage field */
   stage: Stage;
@@ -2135,10 +2139,12 @@ export type PayingPersonConnection = {
 };
 
 export type PayingPersonCreateInput = {
+  batch: Scalars['String'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   document: Scalars['String'];
   name: Scalars['String'];
-  receipt?: InputMaybe<AssetCreateOneInlineInput>;
+  price: Scalars['String'];
+  receipt: AssetCreateOneInlineInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -2175,6 +2181,25 @@ export type PayingPersonManyWhereInput = {
   OR?: InputMaybe<Array<PayingPersonWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  batch?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  batch_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  batch_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  batch_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  batch_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  batch_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  batch_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  batch_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  batch_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  batch_starts_with?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -2251,6 +2276,25 @@ export type PayingPersonManyWhereInput = {
   name_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   name_starts_with?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  price_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  price_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  price_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  price_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  price_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  price_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  price_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  price_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  price_starts_with?: InputMaybe<Scalars['String']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -2290,6 +2334,8 @@ export type PayingPersonManyWhereInput = {
 };
 
 export enum PayingPersonOrderByInput {
+  BatchAsc = 'batch_ASC',
+  BatchDesc = 'batch_DESC',
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
   DocumentAsc = 'document_ASC',
@@ -2298,6 +2344,8 @@ export enum PayingPersonOrderByInput {
   IdDesc = 'id_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
+  PriceAsc = 'price_ASC',
+  PriceDesc = 'price_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
@@ -2305,8 +2353,10 @@ export enum PayingPersonOrderByInput {
 }
 
 export type PayingPersonUpdateInput = {
+  batch?: InputMaybe<Scalars['String']>;
   document?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['String']>;
   receipt?: InputMaybe<AssetUpdateOneInlineInput>;
 };
 
@@ -2328,8 +2378,10 @@ export type PayingPersonUpdateManyInlineInput = {
 };
 
 export type PayingPersonUpdateManyInput = {
+  batch?: InputMaybe<Scalars['String']>;
   document?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['String']>;
 };
 
 export type PayingPersonUpdateManyWithNestedWhereInput = {
@@ -2391,6 +2443,25 @@ export type PayingPersonWhereInput = {
   OR?: InputMaybe<Array<PayingPersonWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  batch?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  batch_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  batch_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  batch_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  batch_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  batch_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  batch_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  batch_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  batch_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  batch_starts_with?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -2467,6 +2538,25 @@ export type PayingPersonWhereInput = {
   name_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   name_starts_with?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  price_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  price_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  price_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  price_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  price_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  price_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  price_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  price_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  price_starts_with?: InputMaybe<Scalars['String']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -4322,15 +4412,65 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type CreatePayingPersonMutationVariables = Exact<{
+  name: Scalars['String'];
+  document: Scalars['String'];
+  batch: Scalars['String'];
+  price: Scalars['String'];
+  receiptId: Scalars['ID'];
+}>;
+
+
+export type CreatePayingPersonMutation = { __typename?: 'Mutation', createPayingPerson?: { __typename?: 'PayingPerson', id: string } | null };
+
 export type GetBatchesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetBatchesQuery = { __typename?: 'Query', batches: Array<{ __typename?: 'Batch', id: string, amount: number, price: number, key: string, name: string, soldAmount?: number | null, qrCode: { __typename?: 'Asset', fileName: string, url: string } }> };
 
 
+export const CreatePayingPersonDocument = gql`
+    mutation createPayingPerson($name: String!, $document: String!, $batch: String!, $price: String!, $receiptId: ID!) {
+  createPayingPerson(
+    data: {name: $name, document: $document, batch: $batch, price: $price, receipt: {connect: {id: $receiptId}}}
+  ) {
+    id
+  }
+}
+    `;
+export type CreatePayingPersonMutationFn = Apollo.MutationFunction<CreatePayingPersonMutation, CreatePayingPersonMutationVariables>;
+
+/**
+ * __useCreatePayingPersonMutation__
+ *
+ * To run a mutation, you first call `useCreatePayingPersonMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePayingPersonMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPayingPersonMutation, { data, loading, error }] = useCreatePayingPersonMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      document: // value for 'document'
+ *      batch: // value for 'batch'
+ *      price: // value for 'price'
+ *      receiptId: // value for 'receiptId'
+ *   },
+ * });
+ */
+export function useCreatePayingPersonMutation(baseOptions?: Apollo.MutationHookOptions<CreatePayingPersonMutation, CreatePayingPersonMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePayingPersonMutation, CreatePayingPersonMutationVariables>(CreatePayingPersonDocument, options);
+      }
+export type CreatePayingPersonMutationHookResult = ReturnType<typeof useCreatePayingPersonMutation>;
+export type CreatePayingPersonMutationResult = Apollo.MutationResult<CreatePayingPersonMutation>;
+export type CreatePayingPersonMutationOptions = Apollo.BaseMutationOptions<CreatePayingPersonMutation, CreatePayingPersonMutationVariables>;
 export const GetBatchesDocument = gql`
     query GetBatches {
-  batches(stage: PUBLISHED) {
+  batches(stage: DRAFT) {
     id
     amount
     price

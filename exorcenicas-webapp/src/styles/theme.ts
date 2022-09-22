@@ -81,6 +81,7 @@ export const fontStyles = {
         textAlign: 'left',
         lineHeight: '110%',
         w: '100%',
+        fontFamily: 'Just Me Again Down Here',
         fontSize: {
             base: '1rem',
             sm: '1rem',
@@ -90,6 +91,9 @@ export const fontStyles = {
             '2xl': '1rem'
         },
     } as TextProps,
+    span: {
+        fontFamily: 'Just Me Again Down Here',
+    } as TextProps
 }
 
 
@@ -109,7 +113,7 @@ export const theme = extendTheme({
             "50": "#EEEEF2"
         },
         app: {
-            primary: '#FF4805'
+            primary: 'red'
         }
     },
     fonts: {
@@ -138,7 +142,9 @@ export const theme = extendTheme({
     },
     components: {
         a: {
-            'text-decoration': 'none'
+            'text-decoration': 'none',
+            fontFamily: 'Just Me Again Down Here',
+            color: 'white',
         }
     },
     ...fontStyles
