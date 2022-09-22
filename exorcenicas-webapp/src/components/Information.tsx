@@ -15,7 +15,7 @@ const location = {
 }
 
 
-const date = '10/10/2022';
+const date = '14/10/2022';
 const hour = 'a partir das 22 hrs';
 
 

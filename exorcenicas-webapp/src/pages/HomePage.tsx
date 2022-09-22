@@ -107,32 +107,62 @@ export function HomePage() {
                 </VStack>
                 <VStack spacing='12'>
                     <ContainerWithLoading isLoading={loading} title='Carregando...' isLoadingError={!!error} loadingErrorMessage='Ops! Não conseguimos carregar os dados.'>
-                        <VStack spacing='4'>
+                        <VStack spacing='8'>
                             {data?.batches?.map(batch => (
-                                <VStack spacing='2' key={batch.id}>
-                                    <HStack spacing='6' >
+                                <Flex flexDir='row' align='center' justify='center' key={batch.id}>
+                                    <Box w='55px' />
+                                    <VStack
+                                        spacing='2'
+                                        borderWidth='1px'
+                                        borderStyle='solid'
+                                        borderColor='app.primary'
+                                        minW='200px'
+                                        rounded='xl'
+                                        bgColor='gray.900'
+                                    >
+                                        <HStack spacing='6' >
+                                            <Text
+                                                as='span'
+                                                fontSize='1.5rem'
+                                                fontWeight='bold'
+                                                textDecoration={batch.soldAmount === batch.amount ? 'line-through' : undefined}
+                                                color={batch.soldAmount === batch.amount ? 'gray.600' : 'app.primary'}
+                                            >
+                                                {batch.name} (<Text fontWeight='regular' as='span' color={!batch.active ? 'gray.600' : 'white'}>
+                                                    {batch.soldAmount}/{batch.amount}
+                                                </Text>)
+                                            </Text>
+                                        </HStack>
+                                        {batch.active ? (
+                                            <Text fontWeight='regular' as='span' fontSize='1.5rem' color={!batch.active ? 'gray.600' : 'white'}>
+                                                {currencyFormatter.format(batch.price)}
+                                            </Text>
+                                        ) : (
+                                            <Text fontWeight='regular' as='span' fontSize='1.5rem' color={!batch.active ? 'gray.600' : 'white'}>
+                                                ???
+                                            </Text>
+                                        )}
+                                    </VStack>
+                                    <Flex
+                                        flexDir='column'
+                                        align='flex-start'
+                                        justify='center'
+                                        bg='transparent'
+                                        ml='-45px'
+                                        mt='-60px'
+                                        transform='rotate(30deg)'
+                                        w='100px'
+                                    >
                                         <Text
+                                            fontWeight='regular'
                                             as='span'
                                             fontSize='1.5rem'
-                                            fontWeight='bold'
-                                            textDecoration={batch.soldAmount === batch.amount ? 'line-through' : undefined}
-                                            color={batch.soldAmount === batch.amount ? 'gray.600' : 'app.primary'}
+                                            color={batch.active ? ((batch?.soldAmount ?? 0) / batch.amount > 0.8) ? 'yellow' : '' : '#39FF14'}
                                         >
-                                            {batch.name} (<Text fontWeight='regular' as='span' color={batch.soldAmount === batch.amount ? 'gray.600' : 'white'}>
-                                                {batch.soldAmount}/{batch.amount}
-                                            </Text>)
+                                            {batch.active ? ((batch?.soldAmount ?? 0) / batch.amount > 0.8) ? 'Últimos!' : '' : 'Em Breve!'}
                                         </Text>
-                                    </HStack>
-                                    {batch.active ? (
-                                        <Text fontWeight='regular' as='span' fontSize='1.5rem' color={batch.soldAmount === batch.amount ? 'gray.600' : 'white'}>
-                                            {currencyFormatter.format(batch.price)}
-                                        </Text>
-                                    ) : (
-                                        <Text fontWeight='regular' as='span' fontSize='1.5rem' color={batch.soldAmount === batch.amount ? 'gray.600' : 'white'}>
-                                            ???
-                                        </Text>
-                                    )}
-                                </VStack>
+                                    </Flex>
+                                </Flex>
                             ))}
                         </VStack>
                         <HStack>
