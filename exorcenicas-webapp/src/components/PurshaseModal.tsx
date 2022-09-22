@@ -92,7 +92,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
 
     const onSubmit: SubmitHandler<UncontrolledFormData> = async (values, event) => {
         event?.preventDefault();
-    
+
         if (!receiptId) {
             setReceiptError('Por favor, insira seu comprovante.');
         } else {
@@ -188,8 +188,8 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                                 <Image
                                     alt={currentBatch?.qrCode.fileName}
                                     src={currentBatch?.qrCode.url}
-                                    width={10}
-                                    height={10}
+                                    width={isWideVersion ? 10 : 8}
+                                    height={isWideVersion ? 10 : 8}
                                     type='rem'
                                 />
                             </Box>
@@ -204,7 +204,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
 
                             />
                         </VStack>
-                        <FileInput px='8' onCallback={setReceiptId} error={receiptError} />
+                        <FileInput px={isWideVersion ? '8' : '2'} onCallback={setReceiptId} error={receiptError} />
                     </VStack>
                     <Center>
                         <PrimaryButton

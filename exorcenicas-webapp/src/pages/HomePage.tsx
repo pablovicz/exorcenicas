@@ -1,4 +1,4 @@
-import { Box, Center, Flex, HStack, Text, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react";
 import { theme } from "../styles/theme";
 
 
@@ -149,14 +149,4 @@ export function HomePage() {
         </Flex>
     );
 
-
-    // <Box rounded='lg' bgColor='orange' p='2'>
-    //                         <Image
-    //                             alt={currentBatch?.qrCode.fileName}
-    //                             src={currentBatch?.qrCode.url}
-    //                             width={10}
-    //                             height={10}
-    //                             type='rem'
-    //                         />
-    //                     </Box>
 }

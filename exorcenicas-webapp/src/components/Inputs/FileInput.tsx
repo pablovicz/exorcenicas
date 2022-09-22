@@ -62,7 +62,7 @@ export function FileInput({ name, label, labelProps, onCallback, error, ...rest 
                     fontWeight="semibold"
                     _focus={{ color: "app.primary" }}
                     color='white'
-                    fontSize={{ base: '1.5rem', sm: '2rem' }}
+                    fontSize='1.5rem'
                     fontFamily='Just Me Again Down Here'
                     {...labelProps}
                 >
@@ -81,6 +81,8 @@ export function FileInput({ name, label, labelProps, onCallback, error, ...rest 
                         onChange={e => handleChange(e?.target?.files)}
                         cursor='pointer'
                         isDisabled={isSubmitting}
+                        fontSize='1.5rem'
+
                         {...rest}
                     />
                 </RenderByCondition>

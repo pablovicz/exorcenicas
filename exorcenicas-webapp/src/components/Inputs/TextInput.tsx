@@ -26,7 +26,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = ({
                     fontWeight="semibold"
                     _focus={{ color: "app.primary" }}
                     color='white'
-                    fontSize={{ base: '1.5rem', sm: '2rem' }}
+                    fontSize='1.5rem'
                     fontFamily='Just Me Again Down Here'
                     {...labelProps}
                 >
@@ -49,7 +49,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = ({
                     pt='8'
                     pb='4'
                     size="md"
-                    fontSize={['1.5rem', '2rem']}
+                    fontSize='1.5rem'
                     ref={ref}
                     {...rest}
                 />

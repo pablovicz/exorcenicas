@@ -48,7 +48,7 @@ export function ClipboardInput({ name, value, label, successTitle = 'Valor Copia
                         htmlFor={name}
                         color={focusColor}
                         w='100%'
-                        fontSize={{ base: '1.5rem', sm: '2rem' }}
+                        fontSize='1.5rem'
                         {...labelProps}
                     >
                         {label}
