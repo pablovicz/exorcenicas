@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Text, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react";
+import { Box, Center, Flex, HStack, Text, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react";
 import { theme } from "../styles/theme";
 
 
