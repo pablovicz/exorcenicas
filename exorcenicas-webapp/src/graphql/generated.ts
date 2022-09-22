@@ -728,6 +728,7 @@ export type AssetWhereUniqueInput = {
 /** Lotes de Ingressos */
 export type Batch = Node & {
   __typename?: 'Batch';
+  active: Scalars['Boolean'];
   amount: Scalars['Int'];
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
@@ -827,6 +828,7 @@ export type BatchConnection = {
 };
 
 export type BatchCreateInput = {
+  active: Scalars['Boolean'];
   amount: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   key: Scalars['String'];
@@ -870,6 +872,9 @@ export type BatchManyWhereInput = {
   OR?: InputMaybe<Array<BatchWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  active?: InputMaybe<Scalars['Boolean']>;
+  /** All values that are not equal to given value. */
+  active_not?: InputMaybe<Scalars['Boolean']>;
   amount?: InputMaybe<Scalars['Int']>;
   /** All values greater than the given value. */
   amount_gt?: InputMaybe<Scalars['Int']>;
@@ -1030,6 +1035,8 @@ export type BatchManyWhereInput = {
 };
 
 export enum BatchOrderByInput {
+  ActiveAsc = 'active_ASC',
+  ActiveDesc = 'active_DESC',
   AmountAsc = 'amount_ASC',
   AmountDesc = 'amount_DESC',
   CreatedAtAsc = 'createdAt_ASC',
@@ -1057,6 +1064,7 @@ export type BatchPayload = {
 };
 
 export type BatchUpdateInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   amount?: InputMaybe<Scalars['Int']>;
   key?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -1083,6 +1091,7 @@ export type BatchUpdateManyInlineInput = {
 };
 
 export type BatchUpdateManyInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
   amount?: InputMaybe<Scalars['Int']>;
   key?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -1149,6 +1158,9 @@ export type BatchWhereInput = {
   OR?: InputMaybe<Array<BatchWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
+  active?: InputMaybe<Scalars['Boolean']>;
+  /** All values that are not equal to given value. */
+  active_not?: InputMaybe<Scalars['Boolean']>;
   amount?: InputMaybe<Scalars['Int']>;
   /** All values greater than the given value. */
   amount_gt?: InputMaybe<Scalars['Int']>;
@@ -4426,7 +4438,7 @@ export type CreatePayingPersonMutation = { __typename?: 'Mutation', createPaying
 export type GetBatchesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBatchesQuery = { __typename?: 'Query', batches: Array<{ __typename?: 'Batch', id: string, amount: number, price: number, key: string, name: string, soldAmount?: number | null, qrCode: { __typename?: 'Asset', fileName: string, url: string } }> };
+export type GetBatchesQuery = { __typename?: 'Query', batches: Array<{ __typename?: 'Batch', id: string, amount: number, price: number, key: string, name: string, soldAmount?: number | null, active: boolean, qrCode: { __typename?: 'Asset', fileName: string, url: string } }> };
 
 
 export const CreatePayingPersonDocument = gql`
@@ -4477,6 +4489,7 @@ export const GetBatchesDocument = gql`
     key
     name
     soldAmount
+    active
     qrCode {
       fileName
       url

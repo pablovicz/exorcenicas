@@ -6,6 +6,7 @@ query GetBatches {
     key
     name
     soldAmount
+    active
     qrCode {
       fileName
       url
