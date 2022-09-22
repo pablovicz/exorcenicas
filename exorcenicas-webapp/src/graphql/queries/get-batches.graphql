@@ -1,0 +1,14 @@
+query GetBatches {
+  batches(stage: PUBLISHED) {
+    id
+    amount
+    price
+    key
+    name
+    soldAmount
+    qrCode {
+      fileName
+      url
+    }
+  }
+}
