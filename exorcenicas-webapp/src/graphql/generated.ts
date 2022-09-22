@@ -2064,6 +2064,8 @@ export type PayingPerson = Node & {
   id: Scalars['ID'];
   /** Nome da pessoa */
   name: Scalars['String'];
+  /** Telefone */
+  phone: Scalars['String'];
   /** Valor a ser pago */
   price: Scalars['String'];
   /** The time the document was published. Null on documents in draft stage. */
@@ -2155,6 +2157,7 @@ export type PayingPersonCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   document: Scalars['String'];
   name: Scalars['String'];
+  phone: Scalars['String'];
   price: Scalars['String'];
   receipt: AssetCreateOneInlineInput;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -2288,6 +2291,25 @@ export type PayingPersonManyWhereInput = {
   name_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   name_starts_with?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  phone_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  phone_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  phone_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  phone_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  phone_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  phone_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  phone_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  phone_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  phone_starts_with?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   price_contains?: InputMaybe<Scalars['String']>;
@@ -2356,6 +2378,8 @@ export enum PayingPersonOrderByInput {
   IdDesc = 'id_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
+  PhoneAsc = 'phone_ASC',
+  PhoneDesc = 'phone_DESC',
   PriceAsc = 'price_ASC',
   PriceDesc = 'price_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
@@ -2368,6 +2392,7 @@ export type PayingPersonUpdateInput = {
   batch?: InputMaybe<Scalars['String']>;
   document?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['String']>;
   receipt?: InputMaybe<AssetUpdateOneInlineInput>;
 };
@@ -2393,6 +2418,7 @@ export type PayingPersonUpdateManyInput = {
   batch?: InputMaybe<Scalars['String']>;
   document?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['String']>;
 };
 
@@ -2550,6 +2576,25 @@ export type PayingPersonWhereInput = {
   name_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   name_starts_with?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  phone_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  phone_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  phone_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  phone_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  phone_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  phone_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  phone_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  phone_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  phone_starts_with?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   price_contains?: InputMaybe<Scalars['String']>;
@@ -4427,6 +4472,7 @@ export enum _SystemDateTimeFieldVariation {
 export type CreatePayingPersonMutationVariables = Exact<{
   name: Scalars['String'];
   document: Scalars['String'];
+  phone: Scalars['String'];
   batch: Scalars['String'];
   price: Scalars['String'];
   receiptId: Scalars['ID'];
@@ -4442,9 +4488,9 @@ export type GetBatchesQuery = { __typename?: 'Query', batches: Array<{ __typenam
 
 
 export const CreatePayingPersonDocument = gql`
-    mutation createPayingPerson($name: String!, $document: String!, $batch: String!, $price: String!, $receiptId: ID!) {
+    mutation createPayingPerson($name: String!, $document: String!, $phone: String!, $batch: String!, $price: String!, $receiptId: ID!) {
   createPayingPerson(
-    data: {name: $name, document: $document, batch: $batch, price: $price, receipt: {connect: {id: $receiptId}}}
+    data: {name: $name, document: $document, phone: $phone, batch: $batch, price: $price, receipt: {connect: {id: $receiptId}}}
   ) {
     id
   }
@@ -4467,6 +4513,7 @@ export type CreatePayingPersonMutationFn = Apollo.MutationFunction<CreatePayingP
  *   variables: {
  *      name: // value for 'name'
  *      document: // value for 'document'
+ *      phone: // value for 'phone'
  *      batch: // value for 'batch'
  *      price: // value for 'price'
  *      receiptId: // value for 'receiptId'

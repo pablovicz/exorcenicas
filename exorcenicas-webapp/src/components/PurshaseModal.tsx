@@ -25,6 +25,7 @@ import { TextInput } from './Inputs/TextInput';
 import { PrimaryButton } from './PrimaryButton';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup';
+import { PhoneInput } from './Inputs/PhoneInput';
 
 
 interface PurchaseModalProps {
@@ -37,11 +38,13 @@ interface PurchaseModalProps {
 interface UncontrolledFormData {
     name: string;
     document: string;
+    phone: string;
 }
 
 const formScheme = yup.object().shape({
     name: yup.string().required('O nome é obrigatório.').min(3, 'O nome deve possuir pelo menos 3 caracteres'),
-    document: yup.string().required('O RG é obrigatório.')
+    document: yup.string().required('O RG é obrigatório.'),
+    phone: yup.string().required('O Telefone é obrigatório.')
 });
 
 
@@ -102,6 +105,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                 variables: {
                     name: values.name,
                     document: values.document,
+                    phone: values.phone,
                     batch: currentBatch.name,
                     price: currencyFormatter.format(currentBatch.price),
                     receiptId: receiptId
@@ -174,6 +178,11 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                             label='RG'
                             error={formState.errors.document}
                             {...register('document')}
+                        />
+                        <PhoneInput 
+                            label='Telefone'
+                            error={formState.errors.phone}
+                            {...register('phone')}
                         />
                         <VStack spacing='4'>
                             <Text as='h3' fontSize='2rem' color='app.primary'>
