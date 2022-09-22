@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Text, useDisclosure, VStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react";
 import { theme } from "../styles/theme";
 
 
@@ -20,14 +20,20 @@ import './animation.css';
 
 export function HomePage() {
 
-
-
-
     const { data, loading, error } = useGetBatchesQuery();
 
     const currentBatch = data?.batches?.filter(batch => batch?.soldAmount as number < batch?.amount)[0];
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const isMobileVersion = useBreakpointValue({
+        base: false,
+        sm: true,
+        md: false,
+        lg: false,
+        xl: false
+    });
+
 
     return (
         <Flex
@@ -50,8 +56,8 @@ export function HomePage() {
                         <Image
                             src={GhostAsset}
                             alt='Ghost'
-                            width={8}
-                            height={8}
+                            width={isMobileVersion ? 4 : 8}
+                            height={isMobileVersion ? 4 : 8}
                             type='rem'
                         />
                     </Box>

@@ -108,7 +108,7 @@
 
     0%{
         transform: translateY(0) rotate(0deg);
-        opacity: 0.5;
+        opacity: 0.4;
         border-radius: 0;
     }
 
@@ -118,9 +118,9 @@
         border-radius: 0;
     }
 
-    30%{
+    50%{
         transform: translateY(-600px) rotate(345deg);
-        opacity: 0.3;
+        opacity: 0.2;
         border-radius: 0;
     }
 

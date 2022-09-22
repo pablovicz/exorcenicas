@@ -34,10 +34,10 @@ export function Information() {
     return (
         <VStack spacing='4'>
             <VStack spacing='2'>
-                <Text as='span' fontSize='2rem' textAlign='center' w='100%'>
+                <Text as='span' fontSize={isMobileVersion ? '1.25rem' : '2rem'} textAlign='center' w='100%'>
                     {date}
                 </Text>
-                <Text as='span' fontSize='1.5rem' textAlign='center' w='100%'>
+                <Text as='span' fontSize={isMobileVersion ? '1rem' : '1.5rem'} textAlign='center' w='100%'>
                     {hour}
                 </Text>
             </VStack>
@@ -48,11 +48,11 @@ export function Information() {
                 rel='noopener noreferer'
             >
                 <Flex flexDir={isMobileVersion ? 'column' : 'row'} align='center' justify='space-between' w='100%'>
-                    <Icon as={FaMapMarkerAlt} fontSize='1rem' />
+                    <Icon as={FaMapMarkerAlt} fontSize={isMobileVersion ? '1.5rem' : '1rem'} />
                     <Text
                         ml={isMobileVersion ? undefined : '4'}
                         mt={isMobileVersion ? '4' : undefined}
-                        fontSize='1.5rem'
+                        fontSize={isMobileVersion ? '1rem': '1.5rem'}
                         fontWeight='regular'
                         textAlign={isMobileVersion ? 'center' : 'left'}
                         lineHeight='120%'
