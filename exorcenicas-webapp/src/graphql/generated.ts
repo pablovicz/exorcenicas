@@ -742,6 +742,7 @@ export type Batch = Node & {
   id: Scalars['ID'];
   key: Scalars['String'];
   name: Scalars['String'];
+  nextBatchId?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']>;
@@ -833,6 +834,7 @@ export type BatchCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   key: Scalars['String'];
   name: Scalars['String'];
+  nextBatchId?: InputMaybe<Scalars['String']>;
   price: Scalars['Float'];
   qrCode: AssetCreateOneInlineInput;
   soldAmount?: InputMaybe<Scalars['Int']>;
@@ -966,6 +968,25 @@ export type BatchManyWhereInput = {
   name_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   name_starts_with?: InputMaybe<Scalars['String']>;
+  nextBatchId?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  nextBatchId_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  nextBatchId_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  nextBatchId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  nextBatchId_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  nextBatchId_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  nextBatchId_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  nextBatchId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  nextBatchId_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  nextBatchId_starts_with?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['Float']>;
   /** All values greater than the given value. */
   price_gt?: InputMaybe<Scalars['Float']>;
@@ -1047,6 +1068,8 @@ export enum BatchOrderByInput {
   KeyDesc = 'key_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
+  NextBatchIdAsc = 'nextBatchId_ASC',
+  NextBatchIdDesc = 'nextBatchId_DESC',
   PriceAsc = 'price_ASC',
   PriceDesc = 'price_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
@@ -1063,11 +1086,19 @@ export type BatchPayload = {
   count: Scalars['Long'];
 };
 
+/** Status do Lote */
+export enum BatchStatus {
+  Active = 'active',
+  SoldOut = 'sold_out',
+  Soon = 'soon'
+}
+
 export type BatchUpdateInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   amount?: InputMaybe<Scalars['Int']>;
   key?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  nextBatchId?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['Float']>;
   qrCode?: InputMaybe<AssetUpdateOneInlineInput>;
   soldAmount?: InputMaybe<Scalars['Int']>;
@@ -1252,6 +1283,25 @@ export type BatchWhereInput = {
   name_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   name_starts_with?: InputMaybe<Scalars['String']>;
+  nextBatchId?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  nextBatchId_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  nextBatchId_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  nextBatchId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  nextBatchId_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  nextBatchId_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  nextBatchId_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  nextBatchId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  nextBatchId_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  nextBatchId_starts_with?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['Float']>;
   /** All values greater than the given value. */
   price_gt?: InputMaybe<Scalars['Float']>;
@@ -1337,6 +1387,7 @@ export type BatchWhereStageInput = {
 /** References Batch record uniquely */
 export type BatchWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
+  nextBatchId?: InputMaybe<Scalars['String']>;
 };
 
 /** Representing a color value comprising of HEX, RGBA and css color values */
@@ -4481,10 +4532,19 @@ export type CreatePayingPersonMutationVariables = Exact<{
 
 export type CreatePayingPersonMutation = { __typename?: 'Mutation', createPayingPerson?: { __typename?: 'PayingPerson', id: string } | null };
 
+export type UpdateBatchMutationVariables = Exact<{
+  id: Scalars['ID'];
+  soldAmount?: InputMaybe<Scalars['Int']>;
+  active?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+
+export type UpdateBatchMutation = { __typename?: 'Mutation', updateBatch?: { __typename?: 'Batch', id: string, soldAmount?: number | null } | null };
+
 export type GetBatchesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBatchesQuery = { __typename?: 'Query', batches: Array<{ __typename?: 'Batch', id: string, amount: number, price: number, key: string, name: string, soldAmount?: number | null, active: boolean, qrCode: { __typename?: 'Asset', fileName: string, url: string } }> };
+export type GetBatchesQuery = { __typename?: 'Query', batches: Array<{ __typename?: 'Batch', id: string, amount: number, price: number, key: string, name: string, soldAmount?: number | null, active: boolean, nextBatchId?: string | null, qrCode: { __typename?: 'Asset', fileName: string, url: string } }> };
 
 
 export const CreatePayingPersonDocument = gql`
@@ -4527,6 +4587,42 @@ export function useCreatePayingPersonMutation(baseOptions?: Apollo.MutationHookO
 export type CreatePayingPersonMutationHookResult = ReturnType<typeof useCreatePayingPersonMutation>;
 export type CreatePayingPersonMutationResult = Apollo.MutationResult<CreatePayingPersonMutation>;
 export type CreatePayingPersonMutationOptions = Apollo.BaseMutationOptions<CreatePayingPersonMutation, CreatePayingPersonMutationVariables>;
+export const UpdateBatchDocument = gql`
+    mutation UpdateBatch($id: ID!, $soldAmount: Int, $active: Boolean) {
+  updateBatch(data: {soldAmount: $soldAmount, active: $active}, where: {id: $id}) {
+    id
+    soldAmount
+  }
+}
+    `;
+export type UpdateBatchMutationFn = Apollo.MutationFunction<UpdateBatchMutation, UpdateBatchMutationVariables>;
+
+/**
+ * __useUpdateBatchMutation__
+ *
+ * To run a mutation, you first call `useUpdateBatchMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBatchMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBatchMutation, { data, loading, error }] = useUpdateBatchMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      soldAmount: // value for 'soldAmount'
+ *      active: // value for 'active'
+ *   },
+ * });
+ */
+export function useUpdateBatchMutation(baseOptions?: Apollo.MutationHookOptions<UpdateBatchMutation, UpdateBatchMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateBatchMutation, UpdateBatchMutationVariables>(UpdateBatchDocument, options);
+      }
+export type UpdateBatchMutationHookResult = ReturnType<typeof useUpdateBatchMutation>;
+export type UpdateBatchMutationResult = Apollo.MutationResult<UpdateBatchMutation>;
+export type UpdateBatchMutationOptions = Apollo.BaseMutationOptions<UpdateBatchMutation, UpdateBatchMutationVariables>;
 export const GetBatchesDocument = gql`
     query GetBatches {
   batches(stage: DRAFT) {
@@ -4537,6 +4633,7 @@ export const GetBatchesDocument = gql`
     name
     soldAmount
     active
+    nextBatchId
     qrCode {
       fileName
       url

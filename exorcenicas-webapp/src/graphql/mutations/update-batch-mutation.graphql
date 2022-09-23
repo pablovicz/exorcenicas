@@ -1,0 +1,6 @@
+mutation UpdateBatch($id: ID!, $soldAmount: Int, $active: Boolean) {
+  updateBatch(data: {soldAmount: $soldAmount, active: $active}, where: {id: $id}) {
+    id
+    soldAmount
+  }
+}

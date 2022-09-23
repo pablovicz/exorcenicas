@@ -13,6 +13,7 @@ export function PrimaryButton({ children, ...rest }: PrimaryButtonProps) {
         <Button
             colorScheme='orange'
             bgColor='app.primary'
+            _hover={{bgColor: 'app.primary', filter: 'brightness(0.9)'}}
             fontFamily='Creepster'
             fontSize='1.5rem'
             p='4'

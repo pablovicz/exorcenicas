@@ -21,6 +21,7 @@ export function FileInput({ name, label, labelProps, onCallback, error, ...rest 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submittedData, setSubmittedData] = useState<FileUploadResponse>({} as FileUploadResponse);
 
+
     const { uploadAsset } = UploadController();
 
     const [file, setFile] = useState([]);
@@ -40,6 +41,7 @@ export function FileInput({ name, label, labelProps, onCallback, error, ...rest 
                     status: 'error',
                     duration: 10000,
                     title: 'Erro no Upload!',
+                    description: 'Não estamos conseguindo registrar sua compra, por favor, envie o comprovante de sua compra na <a href="https://www.instagram.com/exorcenicas/?hl=pt-br" target="_blank" rel="noopener noreferer">nossa DM.</a>',
                     isClosable: true,
                     position: 'bottom'
                 });

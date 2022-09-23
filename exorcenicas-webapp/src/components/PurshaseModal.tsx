@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Batch, useCreatePayingPersonMutation } from '../graphql/generated';
+import { Batch, useCreatePayingPersonMutation, useUpdateBatchMutation } from '../graphql/generated';
 import { theme } from '../styles/theme';
 import { currencyFormatter } from '../utils/utils';
 import { Image } from './Image';
@@ -59,8 +59,10 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
     });
 
     const [receiptId, setReceiptId] = useState('');
+    const [errorCount, setErrorCount] = useState(0);
     const [receiptError, setReceiptError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [updateBatchMutation] = useUpdateBatchMutation();
 
     const { register, handleSubmit, formState, setValue, reset } = useForm<UncontrolledFormData>({
         resolver: yupResolver(formScheme)
@@ -72,12 +74,12 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
     function handleClose() {
         if (!isSubmitting) {
             onClose();
+            reset();
         }
     }
 
     useEffect(() => {
         if (!currentBatch) {
-            reset();
             setReceiptId('');
             setReceiptError('');
             handleClose();
@@ -90,7 +92,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
         if (!!receiptId) {
             setReceiptError('');
         }
-    }, [receiptId])
+    }, [receiptId]);
 
 
     const onSubmit: SubmitHandler<UncontrolledFormData> = async (values, event) => {
@@ -110,18 +112,43 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                     price: currencyFormatter.format(currentBatch.price),
                     receiptId: receiptId
                 }
-            }).then(() => {
-                toast({
-                    status: 'success',
-                    position: 'bottom',
-                    duration: 10000,
-                    isClosable: true,
-                    title: 'Compra Registrada!',
-                    description: 'A compra foi registrada com sucesso.'
-                });
+            }).then(async () => {
+
+                const newSoldAmount = currentBatch?.soldAmount as number + 1;
+
+                await updateBatchMutation({
+                    variables: {
+                        id: currentBatch.id,
+                        soldAmount: newSoldAmount,
+                        active: newSoldAmount !== currentBatch.amount
+                    }
+                }).then(async () => {
+                    toast({
+                        status: 'success',
+                        position: 'bottom',
+                        duration: 10000,
+                        isClosable: true,
+                        title: 'Compra Registrada!',
+                        description: 'A compra foi registrada com sucesso.'
+                    });
+                    if(newSoldAmount === currentBatch.amount && !!currentBatch.nextBatchId){
+                        await updateBatchMutation({
+                            variables: {
+                                id: currentBatch.nextBatchId as string,
+                                active: true
+                            }
+                        }).then(() => {console.log('atualizou')}).catch(err => {console.log(err)});
+                    }
+                }).catch(() => { });
                 setIsSubmitting(false);
                 handleClose();
             }).catch(error => {
+                let message = 'Ocorreu um erro ao registrar sua compra, por favor, tente mais novamente.';
+
+                if(errorCount > 3){
+
+                    message = 'Não estamos conseguindo registrar sua compra, por favor, envie o comprovante de sua compra na <a href="https://www.instagram.com/exorcenicas/?hl=pt-br" target="_blank" rel="noopener noreferer">nossa DM.</a>'
+                }
 
                 toast({
                     status: 'error',
@@ -129,8 +156,9 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                     duration: 10000,
                     isClosable: true,
                     title: 'Ops! Erro ao registrar compra!',
-                    description: 'Ocorreu um erro ao registrar sua compra, por favor tente mais tarde, ou entre em contato com um dos organizadores.'
+                    description: message
                 });
+                setErrorCount(errorCount + 1);
                 setIsSubmitting(false);
             });
 
@@ -179,7 +207,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                             error={formState.errors.document}
                             {...register('document')}
                         />
-                        <PhoneInput 
+                        <PhoneInput
                             label='Telefone'
                             error={formState.errors.phone}
                             {...register('phone')}
@@ -213,7 +241,11 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
 
                             />
                         </VStack>
-                        <FileInput px={isWideVersion ? '8' : '2'} onCallback={setReceiptId} error={receiptError} />
+                        <FileInput
+                            px={isWideVersion ? '8' : '2'}
+                            onCallback={setReceiptId}
+                            error={receiptError}
+                        />
                     </VStack>
                     <Center>
                         <PrimaryButton

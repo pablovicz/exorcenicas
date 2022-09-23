@@ -14,15 +14,18 @@ import SmokeBg from '../assets/background.png';
 import GhostAsset from '../assets/ghost-first.png';
 import { Image } from "../components/Image";
 import './animation.css';
+import { useMemo } from "react";
 
 
 
 
 export function HomePage() {
 
-    const { data, loading, error } = useGetBatchesQuery();
+    const { data, loading, error, refetch } = useGetBatchesQuery();
 
-    const currentBatch = data?.batches?.filter(batch => batch?.soldAmount as number < batch?.amount)[0];
+    const currentBatch = useMemo(() => {
+        return data?.batches?.filter(batch => batch?.soldAmount as number < batch?.amount && batch.active)[0];
+    }, [data]);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -34,6 +37,10 @@ export function HomePage() {
         xl: false
     });
 
+    function handleModalClose(){
+        refetch();
+        onClose();
+    }
 
     return (
         <Flex
@@ -125,16 +132,16 @@ export function HomePage() {
                                                 as='span'
                                                 fontSize='1.5rem'
                                                 fontWeight='bold'
-                                                textDecoration={batch.soldAmount === batch.amount ? 'line-through' : undefined}
-                                                color={batch.soldAmount === batch.amount ? 'gray.600' : 'app.primary'}
+                                                textDecoration={!batch.active && batch.soldAmount === batch.amount ? 'line-through' : undefined}
+                                                color={batch.active && batch.soldAmount === batch.amount ? 'gray.600' : 'app.primary'}
                                             >
-                                                {batch.name} (<Text fontWeight='regular' as='span' color={!batch.active ? 'gray.600' : 'white'}>
+                                                {batch.name} (<Text fontWeight='regular' as='span' color={!batch.active && batch.amount !== batch.soldAmount ? 'gray.600' : 'white'}>
                                                     {batch.soldAmount}/{batch.amount}
                                                 </Text>)
                                             </Text>
                                         </HStack>
-                                        {batch.active ? (
-                                            <Text fontWeight='regular' as='span' fontSize='1.5rem' color={!batch.active ? 'gray.600' : 'white'}>
+                                        {batch.active || batch.amount === batch.soldAmount ? (
+                                            <Text fontWeight='regular' as='span' fontSize='1.5rem' color={!batch.active && batch.amount !== batch.soldAmount ? 'gray.600' : 'white'}>
                                                 {currencyFormatter.format(batch.price)}
                                             </Text>
                                         ) : (
@@ -157,9 +164,9 @@ export function HomePage() {
                                             fontWeight='regular'
                                             as='span'
                                             fontSize='1.5rem'
-                                            color={batch.active ? ((batch?.soldAmount ?? 0) / batch.amount > 0.8) ? 'yellow' : '' : '#39FF14'}
+                                            color={!batch.active && batch.soldAmount !== batch.amount ? '#39FF14' : (batch.soldAmount !== batch.amount && (((batch?.soldAmount ?? 0) / batch.amount) > 0.8) ? 'yellow' : '')}
                                         >
-                                            {batch.active ? ((batch?.soldAmount ?? 0) / batch.amount > 0.8) ? 'Últimos!' : '' : 'Em Breve!'}
+                                            {!batch.active && batch.soldAmount !== batch.amount ? 'Em Breve!' : (batch.soldAmount !== batch.amount && (((batch?.soldAmount ?? 0) / batch.amount) > 0.8) ? 'Últimos!' : '')}
                                         </Text>
                                     </Flex>
                                 </Flex>
@@ -173,7 +180,7 @@ export function HomePage() {
                     </ContainerWithLoading>
                 </VStack>
                 <Footer />
-                <PurchaseModal isOpen={isOpen} onClose={onClose} currentBatch={currentBatch as Batch} />
+                <PurchaseModal isOpen={isOpen} onClose={handleModalClose} currentBatch={currentBatch as Batch} />
             </Flex>
 
         </Flex>
