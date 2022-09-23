@@ -99,7 +99,7 @@ export function FileInput({ name, label, labelProps, onCallback, error, ...rest 
                 <RenderByCondition condition={!!submittedData && Object.keys(submittedData).length > 0 && !isSubmitting}>
                     <HStack spacing='2' bgColor='app.primary' rounded='lg'>
                         <Text as='span' color='white' px='6'>
-                            {submittedData.filename}
+                            {submittedData?.filename}
                         </Text>
                         <IconButton
                             variant='unstyled'

@@ -223,8 +223,8 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                         <VStack spacing='4' w='100%' px='8'>
                             <Box rounded='lg' bgColor='app.primary' p='2'>
                                 <Image
-                                    alt={currentBatch?.qrCode.fileName}
-                                    src={currentBatch?.qrCode.url}
+                                    alt={currentBatch?.qrCode?.fileName}
+                                    src={currentBatch?.qrCode?.url}
                                     width={isWideVersion ? 10 : 8}
                                     height={isWideVersion ? 10 : 8}
                                     type='rem'
