@@ -40,13 +40,14 @@ export function Information() {
                 target="_blank"
                 rel='noopener noreferer'
             >
-                <Flex flexDir='column' align='center' justify='space-between' w='100%'>
+                <Flex flexDir={isMobileVersion ? 'column' : 'row'} align='center' justify='space-between' w='100%'>
                     <Icon as={FaMapMarkerAlt} fontSize='1.5rem' />
                     <Text
-                        mt='4'
+                        mt={isMobileVersion ? '4' : undefined}
+                        ml={isMobileVersion ? undefined : '4'}
                         as='span'
                         fontSize='1.5rem'
-                        textAlign='center'
+                        textAlign={isMobileVersion ? 'center' : 'left'}
                         fontWeight='thin'
                         lineHeight='120%'
                     >
