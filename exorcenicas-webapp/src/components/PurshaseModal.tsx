@@ -304,7 +304,7 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
 
                             <VStack spacing='4' w='100%' px='8'>
                                 <Text as='h3' fontSize={{ base: '2rem', sm: '1.5rem' }} color='app.primary' fontWeight='bold'>
-                                    {currentBatch?.name?.toUpperCase()} - <Text as='span' color='white' fontWeight='thin'>{currencyFormatter.format(currentBatch?.price)}</Text>
+                                    {currentBatch?.name?.toUpperCase()} - <Text as='span' color='white' fontWeight='thin'>{currencyFormatter.format(currentBatch?.price as number)}</Text>
                                 </Text>
                                 <Box rounded='lg' bgColor='app.primary' p='2'>
                                     <Image
