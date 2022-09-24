@@ -57,7 +57,6 @@ export type Asset = Node & {
   publishedAt?: Maybe<Scalars['DateTime']>;
   /** User that last published this document */
   publishedBy?: Maybe<User>;
-  qrCodeBatch: Array<Batch>;
   receiptPayingPerson: Array<PayingPerson>;
   scheduledIn: Array<ScheduledOperation>;
   /** The file size */
@@ -119,19 +118,6 @@ export type AssetPublishedAtArgs = {
 /** Asset system model */
 export type AssetPublishedByArgs = {
   locales?: InputMaybe<Array<Locale>>;
-};
-
-
-/** Asset system model */
-export type AssetQrCodeBatchArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  locales?: InputMaybe<Array<Locale>>;
-  orderBy?: InputMaybe<BatchOrderByInput>;
-  skip?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<BatchWhereInput>;
 };
 
 
@@ -202,7 +188,6 @@ export type AssetCreateInput = {
   /** Inline mutations for managing document localizations excluding the default locale */
   localizations?: InputMaybe<AssetCreateLocalizationsInput>;
   mimeType?: InputMaybe<Scalars['String']>;
-  qrCodeBatch?: InputMaybe<BatchCreateManyInlineInput>;
   receiptPayingPerson?: InputMaybe<PayingPersonCreateManyInlineInput>;
   size?: InputMaybe<Scalars['Float']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -318,9 +303,6 @@ export type AssetManyWhereInput = {
   /** All values that are not contained in given list. */
   publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
-  qrCodeBatch_every?: InputMaybe<BatchWhereInput>;
-  qrCodeBatch_none?: InputMaybe<BatchWhereInput>;
-  qrCodeBatch_some?: InputMaybe<BatchWhereInput>;
   receiptPayingPerson_every?: InputMaybe<PayingPersonWhereInput>;
   receiptPayingPerson_none?: InputMaybe<PayingPersonWhereInput>;
   receiptPayingPerson_some?: InputMaybe<PayingPersonWhereInput>;
@@ -383,7 +365,6 @@ export type AssetUpdateInput = {
   /** Manage document localizations */
   localizations?: InputMaybe<AssetUpdateLocalizationsInput>;
   mimeType?: InputMaybe<Scalars['String']>;
-  qrCodeBatch?: InputMaybe<BatchUpdateManyInlineInput>;
   receiptPayingPerson?: InputMaybe<PayingPersonUpdateManyInlineInput>;
   size?: InputMaybe<Scalars['Float']>;
   width?: InputMaybe<Scalars['Float']>;
@@ -649,9 +630,6 @@ export type AssetWhereInput = {
   /** All values that are not contained in given list. */
   publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
-  qrCodeBatch_every?: InputMaybe<BatchWhereInput>;
-  qrCodeBatch_none?: InputMaybe<BatchWhereInput>;
-  qrCodeBatch_some?: InputMaybe<BatchWhereInput>;
   receiptPayingPerson_every?: InputMaybe<PayingPersonWhereInput>;
   receiptPayingPerson_none?: InputMaybe<PayingPersonWhereInput>;
   receiptPayingPerson_some?: InputMaybe<PayingPersonWhereInput>;
@@ -748,7 +726,6 @@ export type Batch = Node & {
   publishedAt?: Maybe<Scalars['DateTime']>;
   /** User that last published this document */
   publishedBy?: Maybe<User>;
-  qrCode: Asset;
   scheduledIn: Array<ScheduledOperation>;
   soldAmount?: Maybe<Scalars['Int']>;
   /** System stage field */
@@ -784,12 +761,6 @@ export type BatchHistoryArgs = {
 
 /** Lotes de Ingressos */
 export type BatchPublishedByArgs = {
-  locales?: InputMaybe<Array<Locale>>;
-};
-
-
-/** Lotes de Ingressos */
-export type BatchQrCodeArgs = {
   locales?: InputMaybe<Array<Locale>>;
 };
 
@@ -836,7 +807,6 @@ export type BatchCreateInput = {
   name: Scalars['String'];
   nextBatchId?: InputMaybe<Scalars['String']>;
   price: Scalars['Float'];
-  qrCode: AssetCreateOneInlineInput;
   soldAmount?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -1018,7 +988,6 @@ export type BatchManyWhereInput = {
   /** All values that are not contained in given list. */
   publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
-  qrCode?: InputMaybe<AssetWhereInput>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
@@ -1100,7 +1069,6 @@ export type BatchUpdateInput = {
   name?: InputMaybe<Scalars['String']>;
   nextBatchId?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['Float']>;
-  qrCode?: InputMaybe<AssetUpdateOneInlineInput>;
   soldAmount?: InputMaybe<Scalars['Int']>;
 };
 
@@ -1333,7 +1301,6 @@ export type BatchWhereInput = {
   /** All values that are not contained in given list. */
   publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
-  qrCode?: InputMaybe<AssetWhereInput>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
@@ -4544,7 +4511,7 @@ export type UpdateBatchMutation = { __typename?: 'Mutation', updateBatch?: { __t
 export type GetBatchesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBatchesQuery = { __typename?: 'Query', batches: Array<{ __typename?: 'Batch', id: string, amount: number, price: number, key: string, name: string, soldAmount?: number | null, active: boolean, nextBatchId?: string | null, qrCode: { __typename?: 'Asset', fileName: string, url: string } }> };
+export type GetBatchesQuery = { __typename?: 'Query', batches: Array<{ __typename?: 'Batch', id: string, amount: number, price: number, key: string, name: string, soldAmount?: number | null, active: boolean, nextBatchId?: string | null }> };
 
 
 export const CreatePayingPersonDocument = gql`
@@ -4634,10 +4601,6 @@ export const GetBatchesDocument = gql`
     soldAmount
     active
     nextBatchId
-    qrCode {
-      fileName
-      url
-    }
   }
 }
     `;

@@ -8,9 +8,5 @@ query GetBatches {
     soldAmount
     active
     nextBatchId
-    qrCode {
-      fileName
-      url
-    }
   }
 }
