@@ -28,25 +28,41 @@ export function FileInput({ name, label, labelProps, onCallback, error, ...rest 
 
 
     async function handleChange(file: any) {
-        setIsSubmitting(true);
-        setFile(file);
-        await uploadAsset(file[0])
-            .then(response => {
-                setSubmittedData(response.data);
-                onCallback(response.data.id);
-            })
-            .catch(error => {
-                setFile([]);
-                toast({
-                    status: 'error',
-                    duration: 10000,
-                    title: 'Erro no Upload!',
-                    description: 'Não estamos conseguindo registrar sua compra, por favor, envie o comprovante de sua compra na <a href="https://www.instagram.com/exorcenicas/?hl=pt-br" target="_blank" rel="noopener noreferer">nossa DM.</a>',
-                    isClosable: true,
-                    position: 'bottom'
-                });
+
+        try {
+
+            if (!!file) {
+                setIsSubmitting(true);
+                setFile(file);
+                await uploadAsset(file[0])
+                    .then(response => {
+                        setSubmittedData(response.data);
+                        onCallback(response.data.id);
+                    })
+                    .catch(error => {
+                        setFile([]);
+                        toast({
+                            status: 'error',
+                            duration: 10000,
+                            title: 'Erro no Upload!',
+                            description: 'Não estamos conseguindo registrar sua compra, por favor, envie o comprovante de sua compra na nossa DM para que o seu ingresso seja registrado!',
+                            isClosable: true,
+                            position: 'bottom'
+                        });
+                    });
+                setIsSubmitting(false);
+            }
+
+        } catch (err) {
+            toast({
+                status: 'error',
+                duration: 10000,
+                title: 'Erro no Upload!',
+                description: 'Não estamos conseguindo registrar sua compra, por favor, envie o comprovante de sua compra na nossa DM para que o seu ingresso seja registrado!',
+                isClosable: true,
+                position: 'bottom'
             });
-        setIsSubmitting(false);
+        }
 
     }
 
