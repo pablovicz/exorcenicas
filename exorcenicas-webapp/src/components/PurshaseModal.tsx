@@ -160,23 +160,24 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                             receiptId: receiptId
                         }
                     }).then(async () => {
-                            const newSoldAmount = currentBatch?.soldAmount as number + 1;
-                            await updateBatchMutation({
-                                variables: {
-                                    id: currentBatch.id,
-                                    soldAmount: newSoldAmount,
-                                    active: newSoldAmount !== currentBatch?.amount
-                                }
-                            }).then(async () => {
-                                if (newSoldAmount === currentBatch?.amount && !!currentBatch?.nextBatchId) {
-                                    await updateBatchMutation({
-                                        variables: {
-                                            id: currentBatch?.nextBatchId as string,
-                                            active: true
-                                        }
-                                    }).then(() => { }).catch(err => { });
-                                }
-                            }).catch(() => { });
+                        const newSoldAmount = currentBatch?.soldAmount as number + 1;
+                        await updateBatchMutation({
+                            variables: {
+                                id: currentBatch.id,
+                                soldAmount: newSoldAmount,
+                                active: newSoldAmount !== currentBatch?.amount
+                            }
+                        }).then(async () => {
+                            if (newSoldAmount === currentBatch?.amount && !!currentBatch?.nextBatchId) {
+                                await updateBatchMutation({
+                                    variables: {
+                                        id: currentBatch?.nextBatchId as string,
+                                        active: true
+                                    }
+                                }).then(() => { }).catch(err => { });
+                            }
+                        }).catch(() => { });
+                        reset();
                         setIsSubmitting(false);
                         toast({
                             status: 'success',
@@ -186,7 +187,7 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                             title: 'Compra Registrada!',
                             description: 'A compra foi registrada com sucesso.'
                         });
-                        handleClose();
+                        onClose();
                     }).catch(error => {
                         let message = 'Ocorreu um erro ao registrar sua compra, por favor, tente mais novamente.';
 
@@ -288,7 +289,7 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                         </Center>
                     </Center>
 
-                    <ContainerWithLoading isLoading={isLoading || loading || bLoading} title='Atualizando Dados...'>
+                    <ContainerWithLoading isLoading={isLoading || loading || bLoading} title={isSubmitting ? 'Registrando Compra...' : 'Atualizando Dados...'}>
                         <VStack spacing='12' w='100%' px='4' as='form' mt='4'>
 
                             <TextInput
