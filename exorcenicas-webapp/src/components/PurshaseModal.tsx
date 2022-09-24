@@ -26,6 +26,7 @@ import { PrimaryButton } from './PrimaryButton';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup';
 import { PhoneInput } from './Inputs/PhoneInput';
+import QrCode from '../assets/qr-code.jpeg';
 
 
 interface PurchaseModalProps {
@@ -131,13 +132,13 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                         title: 'Compra Registrada!',
                         description: 'A compra foi registrada com sucesso.'
                     });
-                    if(newSoldAmount === currentBatch.amount && !!currentBatch.nextBatchId){
+                    if (newSoldAmount === currentBatch.amount && !!currentBatch.nextBatchId) {
                         await updateBatchMutation({
                             variables: {
                                 id: currentBatch.nextBatchId as string,
                                 active: true
                             }
-                        }).then(() => {console.log('atualizou')}).catch(err => {console.log(err)});
+                        }).then(() => { console.log('atualizou') }).catch(err => { console.log(err) });
                     }
                 }).catch(() => { });
                 setIsSubmitting(false);
@@ -145,7 +146,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
             }).catch(error => {
                 let message = 'Ocorreu um erro ao registrar sua compra, por favor, tente mais novamente.';
 
-                if(errorCount > 3){
+                if (errorCount > 3) {
 
                     message = 'Não estamos conseguindo registrar sua compra, por favor, envie o comprovante de sua compra na <a href="https://www.instagram.com/exorcenicas/?hl=pt-br" target="_blank" rel="noopener noreferer">nossa DM.</a>'
                 }
@@ -196,7 +197,17 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                         }
                     }}
                 >
-                    <VStack spacing='8' w='100%' px='4' as='form'>
+                    <Text
+                        as='span'
+                        w='100%'
+                        textAlign='left'
+                        fontSize='1rem'
+                        px='4'
+                    >
+                        Atenção! Esse é um evento para maiores de 18 anos.
+                    </Text>
+                    <VStack spacing='12' w='100%' px='4' as='form' mt='4'>
+
                         <TextInput
                             label='Nome'
                             error={formState.errors.name}
@@ -223,8 +234,8 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                         <VStack spacing='4' w='100%' px='8'>
                             <Box rounded='lg' bgColor='app.primary' p='2'>
                                 <Image
-                                    alt={currentBatch?.qrCode?.fileName}
-                                    src={currentBatch?.qrCode?.url}
+                                    alt='Qr code'
+                                    src={QrCode}
                                     width={isWideVersion ? 10 : 8}
                                     height={isWideVersion ? 10 : 8}
                                     type='rem'
@@ -232,7 +243,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                             </Box>
                             <ClipboardInput
                                 name='pixKey'
-                                value={currentBatch?.key}
+                                value='exorcenicas@gmail.com'
                                 label='Chave Pix'
                                 successTitle='Chave PIX copiada!'
                                 labelProps={{
@@ -242,6 +253,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                             />
                         </VStack>
                         <FileInput
+                            label='Comprovante'
                             px={isWideVersion ? '8' : '2'}
                             onCallback={setReceiptId}
                             error={receiptError}

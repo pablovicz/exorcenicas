@@ -2,6 +2,7 @@ import { extendTheme, TextProps } from '@chakra-ui/react';
 
 export const fontStyles = {
     h1: {
+        fontFamily: 'Creepster',
         fontWeight: 'bold',
         textAlign: 'center',
         lineHeight: '120%',
@@ -17,6 +18,7 @@ export const fontStyles = {
         },
     } as TextProps,
     h2: {
+        fontFamily: 'Roboto',
         fontWeight: 'bold',
         textAlign: 'center',
         lineHeight: '110%',
@@ -32,7 +34,8 @@ export const fontStyles = {
         },
     } as TextProps,
     h3: {
-        fontWeight: 'regular',
+        fontFamily: 'Roboto',
+        fontWeight: 'medium',
         textAlign: 'center',
         lineHeight: '110%',
         w: '100%',
@@ -47,7 +50,8 @@ export const fontStyles = {
         },
     } as TextProps,
     h4: {
-        fontWeight: 'regular',
+        fontFamily: 'Roboto',
+        fontWeight: 'medium',
         textAlign: 'center',
         lineHeight: '110%',
         w: '100%',
@@ -62,7 +66,8 @@ export const fontStyles = {
         },
     } as TextProps,
     h5: {
-        fontWeight: 'regular',
+        fontFamily: 'Roboto',
+        fontWeight: 'medium',
         textAlign: 'center',
         lineHeight: '110%',
         w: '100%',
@@ -77,11 +82,11 @@ export const fontStyles = {
         },
     } as TextProps,
     p: {
-        fontWeight: 'thin',
         textAlign: 'left',
         lineHeight: '110%',
         w: '100%',
-        fontFamily: 'Just Me Again Down Here',
+        fontFamily: 'Roboto',
+        fontWeight: 'medium',
         fontSize: {
             base: '1rem',
             sm: '1rem',
@@ -92,7 +97,8 @@ export const fontStyles = {
         },
     } as TextProps,
     span: {
-        fontFamily: 'Just Me Again Down Here',
+        fontFamily: 'Roboto',
+        fontWeight: 'medium'
     } as TextProps
 }
 
@@ -118,7 +124,7 @@ export const theme = extendTheme({
     },
     fonts: {
         heading: 'Creepster, cursive',
-        body: 'Just Me Again Down Here, sans-serif',
+        body: 'Roboto, sans-serif',
     },
     styles: {
         global: {
@@ -143,8 +149,11 @@ export const theme = extendTheme({
     components: {
         a: {
             'text-decoration': 'none',
-            fontFamily: 'Just Me Again Down Here',
+            fontFamily: 'Roboto',
             color: 'white',
+        },
+        button: {
+            fontFamily: 'Creepster'
         }
     },
     ...fontStyles

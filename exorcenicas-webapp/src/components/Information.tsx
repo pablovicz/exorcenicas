@@ -1,22 +1,9 @@
 import { Flex, Icon, Link, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { FaMapMarkerAlt } from 'react-icons/fa';
 
-const location = {
-    cep: '80020-040',
-    city: 'Curitiba',
-    district: 'São Francisco',
-    number: 1089,
-    state: 'PR',
-    street: 'Al. Dr. Muricy',
-    location: {
-        latitude: -25.4281757,
-        longitude: -49.274391
-    }
-}
-
 
 const date = '14/10/2022';
-const hour = 'a partir das 22 hrs';
+const hour = 'a partir das 21 hrs';
 
 
 
@@ -47,17 +34,16 @@ export function Information() {
                 target="_blank"
                 rel='noopener noreferer'
             >
-                <Flex flexDir={isMobileVersion ? 'column' : 'row'} align='center' justify='space-between' w='100%'>
+                <Flex flexDir='column' align='center' justify='space-between' w='100%'>
                     <Icon as={FaMapMarkerAlt} fontSize='1.5rem' />
                     <Text
-                        ml={isMobileVersion ? undefined : '4'}
-                        mt={isMobileVersion ? '4' : undefined}
+                        mt='4'
+                        as='span'
                         fontSize='1.5rem'
-                        fontWeight='regular'
-                        textAlign={isMobileVersion ? 'center' : 'left'}
+                        textAlign='center'
                         lineHeight='120%'
                     >
-                        {location.street}, {location.number}{isMobileVersion ? (<br />) : ' - '}{location.district}, {location.city} - {location.state}, {location.cep}
+                        Vila Ida Curitiba <br /> Al. Dr. Muricy, 1089
                     </Text>
                 </Flex>
             </Link>

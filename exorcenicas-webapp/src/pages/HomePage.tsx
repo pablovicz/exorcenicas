@@ -164,6 +164,7 @@ export function HomePage() {
                                             fontWeight='regular'
                                             as='span'
                                             fontSize='1.5rem'
+                                            fontFamily='Just Me Again Down Here'
                                             color={!batch.active && batch.soldAmount !== batch.amount ? '#39FF14' : (batch.soldAmount !== batch.amount && (((batch?.soldAmount ?? 0) / batch.amount) > 0.8) ? 'yellow' : '')}
                                         >
                                             {!batch.active && batch.soldAmount !== batch.amount ? 'Em Breve!' : (batch.soldAmount !== batch.amount && (((batch?.soldAmount ?? 0) / batch.amount) > 0.8) ? 'Últimos!' : '')}
