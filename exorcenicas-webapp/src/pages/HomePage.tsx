@@ -24,8 +24,6 @@ export function HomePage() {
 
     const { data, loading, error, refetch } = useGetBatchesQuery();
 
-    console.log(loading)
-
     const currentBatch = useMemo(() => {
         return data?.batches?.filter(batch => batch?.soldAmount as number < batch?.amount && batch.active)[0];
     }, [data]);

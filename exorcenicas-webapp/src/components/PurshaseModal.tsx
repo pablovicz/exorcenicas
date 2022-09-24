@@ -69,9 +69,6 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
         return data?.batches?.filter(batch => batch?.soldAmount as number < batch?.amount && batch.active)[0];
     }, [data]);
 
-    console.log('modal', isLoading)
-
-
     useEffect(() => {
         if (bLoading) {
             setIsLoading(true);
@@ -135,82 +132,91 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
 
     const onSubmit: SubmitHandler<UncontrolledFormData> = async (values, event) => {
         event?.preventDefault();
-        await refetch();
-
-        if (!!currentBatch?.amount && !!currentBatch?.soldAmount && currentBatch?.soldAmount + 1 > currentBatch?.amount) {
-            toast({
-                status: 'error',
-                position: 'bottom',
-                duration: 10000,
-                isClosable: true,
-                title: 'Ops! Esse Lote Acabou!',
-                description: 'Esse lote já esgotou, aguarde o lançamento do próximo lote.'
-            });
-
-        }
-
-        if (!receiptId) {
-            setReceiptError('Por favor, insira seu comprovante.');
-        } else {
-            setIsSubmitting(true);
-
-            const response = await createPayingPerson({
-                variables: {
-                    name: values.name,
-                    document: values.document,
-                    phone: values.phone,
-                    batch: currentBatch?.name as string,
-                    price: currencyFormatter.format(currentBatch?.price as number),
-                    receiptId: receiptId
-                }
-            }).then(async () => {
-                const newSoldAmount = currentBatch?.soldAmount as number + 1;
-                await updateBatchMutation({
-                    variables: {
-                        id: currentBatch?.id as string,
-                        soldAmount: newSoldAmount,
-                        active: newSoldAmount !== currentBatch?.amount
-                    }
-                }).then(async () => {
-                    toast({
-                        status: 'success',
-                        position: 'bottom',
-                        duration: 10000,
-                        isClosable: true,
-                        title: 'Compra Registrada!',
-                        description: 'A compra foi registrada com sucesso.'
-                    });
-                    if (newSoldAmount === currentBatch?.amount && !!currentBatch?.nextBatchId) {
-                        await updateBatchMutation({
-                            variables: {
-                                id: currentBatch?.nextBatchId as string,
-                                active: true
-                            }
-                        }).then(() => { }).catch(err => { });
-                    }
-                }).catch(() => { });
-                setIsSubmitting(false);
-                handleClose();
-            }).catch(error => {
-                let message = 'Ocorreu um erro ao registrar sua compra, por favor, tente mais novamente.';
-
-                if (errorCount > 3) {
-
-                    message = 'Não estamos conseguindo registrar sua compra, por favor, envie o comprovante de sua compra nossa DM.'
-                }
-
+        await refetch().then(() => { }).catch(() => { });
+        if (!!currentBatch) {
+            if (!!currentBatch?.amount && !!currentBatch?.soldAmount && currentBatch?.soldAmount + 1 > currentBatch?.amount) {
                 toast({
                     status: 'error',
                     position: 'bottom',
                     duration: 10000,
                     isClosable: true,
-                    title: 'Ops! Erro ao registrar compra!',
-                    description: message
+                    title: 'Ops! Esse Lote Acabou!',
+                    description: 'Esse lote já esgotou, aguarde o lançamento do próximo lote.'
                 });
-                setErrorCount(errorCount + 1);
-                setIsSubmitting(false);
-            });
+            }
+            if (!receiptId) {
+                setReceiptError('Por favor, insira seu comprovante.');
+            } else {
 
+                setIsSubmitting(true);
+
+                const response = await createPayingPerson({
+                    variables: {
+                        name: values.name,
+                        document: values.document,
+                        phone: values.phone,
+                        batch: currentBatch.name,
+                        price: currencyFormatter.format(currentBatch.price),
+                        receiptId: receiptId
+                    }
+                }).then(async () => {
+                    const newSoldAmount = currentBatch?.soldAmount as number + 1;
+                    await updateBatchMutation({
+                        variables: {
+                            id: currentBatch.id,
+                            soldAmount: newSoldAmount,
+                            active: newSoldAmount !== currentBatch?.amount
+                        }
+                    }).then(async () => {
+                        toast({
+                            status: 'success',
+                            position: 'bottom',
+                            duration: 100000,
+                            isClosable: true,
+                            title: 'Compra Registrada!',
+                            description: 'A compra foi registrada com sucesso.'
+                        });
+                        if (newSoldAmount === currentBatch?.amount && !!currentBatch?.nextBatchId) {
+                            await updateBatchMutation({
+                                variables: {
+                                    id: currentBatch?.nextBatchId as string,
+                                    active: true
+                                }
+                            }).then(() => { }).catch(err => { });
+                        }
+                    }).catch(() => { });
+                    setIsSubmitting(false);
+                    handleClose();
+                }).catch(error => {
+                    let message = 'Ocorreu um erro ao registrar sua compra, por favor, tente mais novamente.';
+
+                    if (errorCount > 3) {
+
+                        message = 'Não estamos conseguindo registrar sua compra, por favor, envie o comprovante de sua compra nossa DM.'
+                    }
+
+                    toast({
+                        status: 'error',
+                        position: 'bottom',
+                        duration: 10000,
+                        isClosable: true,
+                        title: 'Ops! Erro ao registrar compra!',
+                        description: message
+                    });
+                    setErrorCount(errorCount + 1);
+                    setIsSubmitting(false);
+                });
+
+            }
+        } else {
+            toast({
+                status: 'error',
+                position: 'bottom',
+                duration: 10000,
+                isClosable: true,
+                title: 'Ops!',
+                description: 'Precisamos Atualizar os dados. :)'
+            });
         }
 
     }
@@ -227,7 +233,7 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                     textAlign='center'
                     fontSize='2rem'
                 >
-                    COMPRAR - {currentBatch?.soldAmount as number + 1}/{currentBatch?.amount}
+                    COMPRAR
                 </ModalHeader>
                 <ModalCloseButton color='white' colorScheme='whiteAlpha' />
                 <ModalBody
