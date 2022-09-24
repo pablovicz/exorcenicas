@@ -64,7 +64,7 @@ export function FileInput({ name, label, labelProps, onCallback, error, ...rest 
                     fontWeight="semibold"
                     _focus={{ color: "app.primary" }}
                     color='white'
-                    fontSize='1.5rem'
+                    fontSize='1rem'
                     fontFamily='Roboto'
                     mb='4'
                     {...labelProps}
@@ -81,6 +81,8 @@ export function FileInput({ name, label, labelProps, onCallback, error, ...rest 
                         justifyContent='center'
                         multiple={false}
                         value={file}
+                        fontWeight='regular'
+                        fontFamily='Roboto'
                         onChange={e => handleChange(e?.target?.files)}
                         cursor='pointer'
                         isDisabled={isSubmitting}
@@ -118,7 +120,7 @@ export function FileInput({ name, label, labelProps, onCallback, error, ...rest 
                 </RenderByCondition>
             </Center>
             <RenderByCondition condition={!!error}>
-                <FormErrorMessage fontSize='1.25rem'>{error}</FormErrorMessage>
+                <FormErrorMessage fontSize='1rem'>{error}</FormErrorMessage>
             </RenderByCondition>
         </FormControl>
     );

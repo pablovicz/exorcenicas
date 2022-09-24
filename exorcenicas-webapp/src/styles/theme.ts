@@ -19,7 +19,7 @@ export const fontStyles = {
     } as TextProps,
     h2: {
         fontFamily: 'Roboto',
-        fontWeight: 'bold',
+        fontWeight: 'thin',
         textAlign: 'center',
         lineHeight: '110%',
         w: '100%',
@@ -35,7 +35,7 @@ export const fontStyles = {
     } as TextProps,
     h3: {
         fontFamily: 'Roboto',
-        fontWeight: 'medium',
+        fontWeight: 'thin',
         textAlign: 'center',
         lineHeight: '110%',
         w: '100%',
@@ -51,7 +51,7 @@ export const fontStyles = {
     } as TextProps,
     h4: {
         fontFamily: 'Roboto',
-        fontWeight: 'medium',
+        fontWeight: 'thin',
         textAlign: 'center',
         lineHeight: '110%',
         w: '100%',
@@ -67,7 +67,7 @@ export const fontStyles = {
     } as TextProps,
     h5: {
         fontFamily: 'Roboto',
-        fontWeight: 'medium',
+        fontWeight: 'thin',
         textAlign: 'center',
         lineHeight: '110%',
         w: '100%',
@@ -86,7 +86,7 @@ export const fontStyles = {
         lineHeight: '110%',
         w: '100%',
         fontFamily: 'Roboto',
-        fontWeight: 'medium',
+        fontWeight: 'thin',
         fontSize: {
             base: '1rem',
             sm: '1rem',
@@ -98,7 +98,7 @@ export const fontStyles = {
     } as TextProps,
     span: {
         fontFamily: 'Roboto',
-        fontWeight: 'medium'
+        fontWeight: 'thin'
     } as TextProps
 }
 
@@ -119,7 +119,7 @@ export const theme = extendTheme({
             "50": "#EEEEF2"
         },
         app: {
-            primary: 'red'
+            primary: '#A011A8'
         }
     },
     fonts: {
@@ -150,7 +150,7 @@ export const theme = extendTheme({
         a: {
             'text-decoration': 'none',
             fontFamily: 'Roboto',
-            color: 'white',
+            color: 'white'
         },
         button: {
             fontFamily: 'Creepster'

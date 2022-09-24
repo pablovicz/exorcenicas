@@ -23,14 +23,15 @@ export function Footer() {
                 rel='noopener noreferer'
             >
                 <Flex flexDir={isMobileVersion ? 'column' : 'row'} align='center' justify='space-between' w='100%'>
-                    <Icon as={GrInstagram} fontSize='1.75rem' />
+                    <Icon as={GrInstagram} fontSize='1.5rem' />
                     <Text
                         ml={isMobileVersion ? undefined : '4'}
                         mt={isMobileVersion ? '4' : undefined}
-                        fontSize='1.5rem'
-                        fontWeight='regular'
+                        fontSize='1.25rem'
+                        fontWeight='thin'
                         textAlign={isMobileVersion ? 'center' : 'left'}
-                        lineHeight='120%'>
+                        lineHeight='120%'
+                        >
                         No caso de dúvidas, nos mande uma DM!
                     </Text>
                 </Flex>

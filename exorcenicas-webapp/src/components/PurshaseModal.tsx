@@ -171,8 +171,14 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
     return (
         <Modal isOpen={isOpen} onClose={handleClose} size={isWideVersion ? 'lg' : 'full'} scrollBehavior='inside'>
             <ModalOverlay />
-            <ModalContent bgColor='gray.700' rounded='3xl'>
-                <ModalHeader as='h1' color="app.primary" fontFamily='Creepster' textAlign='center' fontSize='2rem'>
+            <ModalContent bgColor='gray.800' rounded='3xl'>
+                <ModalHeader
+                    as='h1'
+                    color="app.primary"
+                    fontFamily='Creepster'
+                    textAlign='center'
+                    fontSize='2rem'
+                >
                     Comprar
                 </ModalHeader>
                 <ModalCloseButton color='white' colorScheme='whiteAlpha' />
@@ -197,15 +203,27 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                         }
                     }}
                 >
-                    <Text
-                        as='span'
-                        w='100%'
-                        textAlign='left'
-                        fontSize='1rem'
-                        px='4'
-                    >
-                        Atenção! Esse é um evento para maiores de 18 anos.
-                    </Text>
+                    <Center w='100%'>
+                        <Center
+                            bgColor='app.primary'
+                            rounded='md'
+                            w='80%'
+                        >
+                            <Text
+                                as='span'
+                                w='100%'
+                                fontSize='1rem'
+                                px='4'
+                                color='white'
+                                textAlign='center'
+                                fontWeight='regular'
+                            >
+                                <Text as='span' fontWeight='bold'>Atenção!</Text> <br />Esse é um evento para maiores de 18 anos.
+                            </Text>
+
+                        </Center>
+                    </Center>
+
                     <VStack spacing='12' w='100%' px='4' as='form' mt='4'>
 
                         <TextInput
@@ -223,15 +241,11 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                             error={formState.errors.phone}
                             {...register('phone')}
                         />
-                        <VStack spacing='4'>
-                            <Text as='h3' fontSize='2rem' color='app.primary'>
-                                {currentBatch?.name}
-                            </Text>
-                            <Text as='h3' fontSize='2rem' color='white'>
-                                {currencyFormatter.format(currentBatch?.price)}
-                            </Text>
-                        </VStack>
+
                         <VStack spacing='4' w='100%' px='8'>
+                            <Text as='h3' fontSize='2rem' color='app.primary' fontWeight='bold'>
+                                {currentBatch?.name?.toUpperCase()} - <Text as='span' color='white' fontWeight='thin'>{currencyFormatter.format(currentBatch?.price)}</Text>
+                            </Text>
                             <Box rounded='lg' bgColor='app.primary' p='2'>
                                 <Image
                                     alt='Qr code'

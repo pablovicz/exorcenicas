@@ -126,6 +126,8 @@ export function HomePage() {
                                         minW='200px'
                                         rounded='xl'
                                         bgColor='gray.900'
+                                        px='4'
+                                        py='2'
                                     >
                                         <HStack spacing='6' >
                                             <Text
@@ -135,7 +137,7 @@ export function HomePage() {
                                                 textDecoration={!batch.active && batch.soldAmount === batch.amount ? 'line-through' : undefined}
                                                 color={batch.active && batch.soldAmount === batch.amount ? 'gray.600' : 'app.primary'}
                                             >
-                                                {batch.name} (<Text fontWeight='regular' as='span' color={!batch.active && batch.amount !== batch.soldAmount ? 'gray.600' : 'white'}>
+                                                {batch.name?.toUpperCase()} (<Text fontWeight='regular' as='span' color={!batch.active && batch.amount !== batch.soldAmount ? 'gray.600' : 'white'}>
                                                     {batch.soldAmount}/{batch.amount}
                                                 </Text>)
                                             </Text>
@@ -145,8 +147,8 @@ export function HomePage() {
                                                 {currencyFormatter.format(batch.price)}
                                             </Text>
                                         ) : (
-                                            <Text fontWeight='regular' as='span' fontSize='1.5rem' color={!batch.active ? 'gray.600' : 'white'}>
-                                                ???
+                                            <Text fontWeight='regular' as='span' fontSize='1.25rem' color={!batch.active ? 'gray.600' : 'white'}>
+                                                A REVELAR
                                             </Text>
                                         )}
                                     </VStack>

@@ -49,6 +49,7 @@ export function ClipboardInput({ name, value, label, successTitle = 'Valor Copia
                         color={focusColor}
                         w='100%'
                         fontSize='1rem'
+                        fontWeight='thin'
                         {...labelProps}
                     >
                         {label}
@@ -82,8 +83,9 @@ export function ClipboardInput({ name, value, label, successTitle = 'Valor Copia
                         border="none"
                         size="md"
                         isDisabled={true}
-                        fontFamily="Just Me Again Down Here"
-                        fontSize='1.5rem'
+                        fontFamily="Roboto"
+                        fontSize='1rem'
+                        fontWeight='regular'
                         _disabled={{ color: focusColor }}
                         value={value}
                     />

@@ -28,7 +28,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, RgInputProps> = ({ n
                     fontWeight="semibold"
                     _focus={{ color: "app.primary" }}
                     color='white'
-                    fontSize='1.5rem'
+                    fontSize='1.25rem'
                     fontFamily='Roboto'
                     {...labelProps}
                 >
@@ -44,6 +44,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, RgInputProps> = ({ n
                     bgColor="none"
                     borderColor='white'
                     color='white'
+                    fontWeight='regular'
                     _focus={{ color: "app.primary" }}
                     focusBorderColor="app.primary"
                     _placeholder={{ color: 'gray.200', fontWeight: 'thin' }}
