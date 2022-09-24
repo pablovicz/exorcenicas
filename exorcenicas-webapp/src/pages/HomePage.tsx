@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Text, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react";
+import { Box, Center, Flex, HStack, Text, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react";
 import { theme } from "../styles/theme";
 
 
@@ -15,6 +15,7 @@ import GhostAsset from '../assets/ghost-first.png';
 import { Image } from "../components/Image";
 import './animation.css';
 import { useMemo } from "react";
+import { RenderByCondition } from "../components/RenderByCondition";
 
 
 
@@ -27,6 +28,8 @@ export function HomePage() {
         return data?.batches?.filter(batch => batch?.soldAmount as number < batch?.amount && batch.active)[0];
     }, [data]);
 
+    console.log(currentBatch)
+
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const isMobileVersion = useBreakpointValue({
@@ -37,7 +40,7 @@ export function HomePage() {
         xl: false
     });
 
-    function handleModalClose(){
+    function handleModalClose() {
         refetch();
         onClose();
     }
@@ -175,11 +178,13 @@ export function HomePage() {
                                 </Flex>
                             ))}
                         </VStack>
-                        <HStack>
-                            <PrimaryButton onClick={onOpen}>
-                                COMPRAR
-                            </PrimaryButton>
-                        </HStack>
+                        <RenderByCondition condition={!!currentBatch}> 
+                            <Center>
+                                <PrimaryButton onClick={onOpen} isDisabled={!currentBatch}>
+                                    COMPRAR
+                                </PrimaryButton>
+                            </Center>
+                        </RenderByCondition>
                     </ContainerWithLoading>
                 </VStack>
                 <Footer />
