@@ -160,32 +160,34 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                         receiptId: receiptId
                     }
                 }).then(async () => {
-                    const newSoldAmount = currentBatch?.soldAmount as number + 1;
-                    await updateBatchMutation({
-                        variables: {
-                            id: currentBatch.id,
-                            soldAmount: newSoldAmount,
-                            active: newSoldAmount !== currentBatch?.amount
-                        }
-                    }).then(async () => {
-                        toast({
-                            status: 'success',
-                            position: 'bottom',
-                            duration: 100000,
-                            isClosable: true,
-                            title: 'Compra Registrada!',
-                            description: 'A compra foi registrada com sucesso.'
-                        });
-                        if (newSoldAmount === currentBatch?.amount && !!currentBatch?.nextBatchId) {
-                            await updateBatchMutation({
-                                variables: {
-                                    id: currentBatch?.nextBatchId as string,
-                                    active: true
-                                }
-                            }).then(() => { }).catch(err => { });
-                        }
-                    }).catch(() => { });
+                    if (!!currentBatch?.soldAmount) {
+                        const newSoldAmount = currentBatch?.soldAmount + 1;
+                        await updateBatchMutation({
+                            variables: {
+                                id: currentBatch.id,
+                                soldAmount: newSoldAmount,
+                                active: newSoldAmount !== currentBatch?.amount
+                            }
+                        }).then(async () => {
+                            if (newSoldAmount === currentBatch?.amount && !!currentBatch?.nextBatchId) {
+                                await updateBatchMutation({
+                                    variables: {
+                                        id: currentBatch?.nextBatchId as string,
+                                        active: true
+                                    }
+                                }).then(() => { }).catch(err => { });
+                            }
+                        }).catch(() => { });
+                    }
                     setIsSubmitting(false);
+                    toast({
+                        status: 'success',
+                        position: 'bottom',
+                        duration: 100000,
+                        isClosable: true,
+                        title: 'Compra Registrada!',
+                        description: 'A compra foi registrada com sucesso.'
+                    });
                     handleClose();
                 }).catch(error => {
                     let message = 'Ocorreu um erro ao registrar sua compra, por favor, tente mais novamente.';
