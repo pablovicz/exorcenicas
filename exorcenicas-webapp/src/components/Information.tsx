@@ -20,7 +20,7 @@ export function Information() {
 
     return (
         <VStack spacing='4'>
-            <Text as='h2' fontWeight='bold' fontSize='1.5rem'>
+            <Text as='h2' fontWeight='bold' fontSize='1.5rem' textAlign='center'>
                 Você está preparado para uma festa de arrepiar?
             </Text>
             <Text as='span' fontSize='1.25rem' fontWeight='thin' textAlign='center' w='100%' px='4' maxW='600px'>
