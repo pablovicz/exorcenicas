@@ -179,7 +179,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                     textAlign='center'
                     fontSize='2rem'
                 >
-                    Comprar
+                    COMPRAR
                 </ModalHeader>
                 <ModalCloseButton color='white' colorScheme='whiteAlpha' />
                 <ModalBody
@@ -190,7 +190,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                         },
                         /* Track */
                         '::-webkit-scrollbar-track': {
-                            'background': theme.colors.gray[700]
+                            'background': theme.colors.gray[800]
                         },
                         /* Handle */
                         '::-webkit-scrollbar-thumb': {
