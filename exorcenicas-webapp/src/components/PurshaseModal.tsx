@@ -136,9 +136,8 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
     const onSubmit: SubmitHandler<UncontrolledFormData> = async (values, event) => {
         event?.preventDefault();
         await refetch();
-        const newSoldAmount = currentBatch?.soldAmount as number + 1;
 
-        if (!!currentBatch?.amount && newSoldAmount as number > currentBatch?.amount) {
+        if (!!currentBatch?.amount && !!currentBatch?.soldAmount && currentBatch?.soldAmount + 1 > currentBatch?.amount) {
             toast({
                 status: 'error',
                 position: 'bottom',
@@ -165,7 +164,7 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                     receiptId: receiptId
                 }
             }).then(async () => {
-
+                const newSoldAmount = currentBatch?.soldAmount as number + 1;
                 await updateBatchMutation({
                     variables: {
                         id: currentBatch?.id as string,
