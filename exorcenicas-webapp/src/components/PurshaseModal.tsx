@@ -178,7 +178,7 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                             }
                         }).catch(() => { });
                         reset();
-                        setIsSubmitting(false);
+                        onClose();
                         toast({
                             status: 'success',
                             position: 'bottom',
@@ -187,7 +187,7 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                             title: 'Compra Registrada!',
                             description: 'A compra foi registrada com sucesso.'
                         });
-                        onClose();
+                        
                     }).catch(error => {
                         let message = 'Ocorreu um erro ao registrar sua compra, por favor, tente mais novamente.';
 
@@ -291,7 +291,6 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
 
                     <ContainerWithLoading isLoading={isLoading || loading || bLoading} title={isSubmitting ? 'Registrando Compra...' : 'Atualizando Dados...'}>
                         <VStack spacing='12' w='100%' px='4' as='form' mt='4'>
-
                             <TextInput
                                 label='Nome'
                                 error={formState.errors.name}
