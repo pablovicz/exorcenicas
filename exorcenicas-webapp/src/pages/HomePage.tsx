@@ -24,11 +24,11 @@ export function HomePage() {
 
     const { data, loading, error, refetch } = useGetBatchesQuery();
 
+    console.log(loading)
+
     const currentBatch = useMemo(() => {
         return data?.batches?.filter(batch => batch?.soldAmount as number < batch?.amount && batch.active)[0];
     }, [data]);
-
-    console.log(currentBatch)
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -178,7 +178,7 @@ export function HomePage() {
                                 </Flex>
                             ))}
                         </VStack>
-                        <RenderByCondition condition={!!currentBatch}> 
+                        <RenderByCondition condition={!!currentBatch}>
                             <Center>
                                 <PrimaryButton onClick={onOpen} isDisabled={!currentBatch}>
                                     COMPRAR
@@ -188,7 +188,7 @@ export function HomePage() {
                     </ContainerWithLoading>
                 </VStack>
                 <Footer />
-                <PurchaseModal isOpen={isOpen} onClose={handleModalClose} currentBatch={currentBatch as Batch} />
+                <PurchaseModal isOpen={isOpen} onClose={handleModalClose} />
             </Flex>
 
         </Flex>

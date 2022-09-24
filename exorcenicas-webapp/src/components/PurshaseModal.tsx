@@ -12,9 +12,9 @@ import {
     Center,
     useToast,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Batch, useCreatePayingPersonMutation, useUpdateBatchMutation } from '../graphql/generated';
+import { Batch, useCreatePayingPersonMutation, useGetBatchesQuery, useUpdateBatchMutation } from '../graphql/generated';
 import { theme } from '../styles/theme';
 import { currencyFormatter } from '../utils/utils';
 import { Image } from './Image';
@@ -27,12 +27,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup';
 import { PhoneInput } from './Inputs/PhoneInput';
 import QrCode from '../assets/qr-code.jpeg';
+import { RenderByCondition } from './RenderByCondition';
+import { ContainerWithLoading } from './ContainerWithLoading';
 
 
 interface PurchaseModalProps {
     isOpen: boolean;
     onClose: () => void;
-    currentBatch: Batch;
 }
 
 
@@ -49,7 +50,7 @@ const formScheme = yup.object().shape({
 });
 
 
-export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalProps) {
+export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
 
     const isWideVersion = useBreakpointValue({
         base: false,
@@ -59,13 +60,49 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
         xl: true
     });
 
+    const [isLoading, setIsLoading] = useState(true);
+
+
+    const { data, loading: bLoading, error, refetch } = useGetBatchesQuery();
+
+    const currentBatch = useMemo(() => {
+        return data?.batches?.filter(batch => batch?.soldAmount as number < batch?.amount && batch.active)[0];
+    }, [data]);
+
+    console.log('modal', isLoading)
+
+
+    useEffect(() => {
+        if (bLoading) {
+            setIsLoading(true);
+        }
+        else {
+            if (!!data && !error) {
+                setIsLoading(false);
+            } else {
+                if (isOpen) {
+                    toast({
+                        status: 'error',
+                        position: 'bottom',
+                        duration: 10000,
+                        isClosable: true,
+                        title: 'Ops! Erro Inesperado!',
+                        description: 'Desculpe! Aconteceu um erro inesperado, por favor, tente novamente.'
+                    });
+                    handleClose();
+                }
+            }
+        }
+    }, [data, bLoading]);
+
+
     const [receiptId, setReceiptId] = useState('');
     const [errorCount, setErrorCount] = useState(0);
     const [receiptError, setReceiptError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [updateBatchMutation] = useUpdateBatchMutation();
 
-    const { register, handleSubmit, formState, setValue, reset } = useForm<UncontrolledFormData>({
+    const { register, handleSubmit, formState, reset } = useForm<UncontrolledFormData>({
         resolver: yupResolver(formScheme)
     });
 
@@ -98,6 +135,20 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
 
     const onSubmit: SubmitHandler<UncontrolledFormData> = async (values, event) => {
         event?.preventDefault();
+        await refetch();
+        const newSoldAmount = currentBatch?.soldAmount as number + 1;
+
+        if (!!currentBatch?.amount && newSoldAmount as number > currentBatch?.amount) {
+            toast({
+                status: 'error',
+                position: 'bottom',
+                duration: 10000,
+                isClosable: true,
+                title: 'Ops! Esse Lote Acabou!',
+                description: 'Esse lote já esgotou, aguarde o lançamento do próximo lote.'
+            });
+
+        }
 
         if (!receiptId) {
             setReceiptError('Por favor, insira seu comprovante.');
@@ -109,19 +160,17 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                     name: values.name,
                     document: values.document,
                     phone: values.phone,
-                    batch: currentBatch.name,
-                    price: currencyFormatter.format(currentBatch.price),
+                    batch: currentBatch?.name as string,
+                    price: currencyFormatter.format(currentBatch?.price as number),
                     receiptId: receiptId
                 }
             }).then(async () => {
 
-                const newSoldAmount = currentBatch?.soldAmount as number + 1;
-
                 await updateBatchMutation({
                     variables: {
-                        id: currentBatch.id,
+                        id: currentBatch?.id as string,
                         soldAmount: newSoldAmount,
-                        active: newSoldAmount !== currentBatch.amount
+                        active: newSoldAmount !== currentBatch?.amount
                     }
                 }).then(async () => {
                     toast({
@@ -132,13 +181,13 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                         title: 'Compra Registrada!',
                         description: 'A compra foi registrada com sucesso.'
                     });
-                    if (newSoldAmount === currentBatch.amount && !!currentBatch.nextBatchId) {
+                    if (newSoldAmount === currentBatch?.amount && !!currentBatch?.nextBatchId) {
                         await updateBatchMutation({
                             variables: {
-                                id: currentBatch.nextBatchId as string,
+                                id: currentBatch?.nextBatchId as string,
                                 active: true
                             }
-                        }).then(() => { console.log('atualizou') }).catch(err => { console.log(err) });
+                        }).then(() => { }).catch(err => { });
                     }
                 }).catch(() => { });
                 setIsSubmitting(false);
@@ -148,7 +197,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
 
                 if (errorCount > 3) {
 
-                    message = 'Não estamos conseguindo registrar sua compra, por favor, envie o comprovante de sua compra na <a href="https://www.instagram.com/exorcenicas/?hl=pt-br" target="_blank" rel="noopener noreferer">nossa DM.</a>'
+                    message = 'Não estamos conseguindo registrar sua compra, por favor, envie o comprovante de sua compra nossa DM.'
                 }
 
                 toast({
@@ -179,7 +228,7 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                     textAlign='center'
                     fontSize='2rem'
                 >
-                    COMPRAR
+                    COMPRAR - {currentBatch?.soldAmount as number + 1}/{currentBatch?.amount}
                 </ModalHeader>
                 <ModalCloseButton color='white' colorScheme='whiteAlpha' />
                 <ModalBody
@@ -224,67 +273,74 @@ export function PurchaseModal({ isOpen, onClose, currentBatch }: PurchaseModalPr
                         </Center>
                     </Center>
 
-                    <VStack spacing='12' w='100%' px='4' as='form' mt='4'>
+                    <ContainerWithLoading isLoading={isLoading || loading || bLoading} title='Atualizando Dados...'>
+                        <VStack spacing='12' w='100%' px='4' as='form' mt='4'>
 
-                        <TextInput
-                            label='Nome'
-                            error={formState.errors.name}
-                            {...register('name')}
-                        />
-                        <RgInput
-                            label='RG'
-                            error={formState.errors.document}
-                            {...register('document')}
-                        />
-                        <PhoneInput
-                            label='Telefone'
-                            error={formState.errors.phone}
-                            {...register('phone')}
-                        />
+                            <TextInput
+                                label='Nome'
+                                error={formState.errors.name}
+                                isDisabled={isSubmitting || isLoading}
+                                {...register('name')}
+                            />
+                            <RgInput
+                                label='RG'
+                                error={formState.errors.document}
+                                isDisabled={isSubmitting || isLoading}
+                                {...register('document')}
+                            />
+                            <PhoneInput
+                                label='Telefone'
+                                error={formState.errors.phone}
+                                isDisabled={isSubmitting || isLoading}
+                                {...register('phone')}
+                            />
 
-                        <VStack spacing='4' w='100%' px='8'>
-                            <Text as='h3' fontSize={{base: '2rem', sm: '1.5rem'}} color='app.primary' fontWeight='bold'>
-                                {currentBatch?.name?.toUpperCase()} - <Text as='span' color='white' fontWeight='thin'>{currencyFormatter.format(currentBatch?.price)}</Text>
-                            </Text>
-                            <Box rounded='lg' bgColor='app.primary' p='2'>
-                                <Image
-                                    alt='Qr code'
-                                    src={QrCode}
-                                    width={isWideVersion ? 10 : 8}
-                                    height={isWideVersion ? 10 : 8}
-                                    type='rem'
+                            <VStack spacing='4' w='100%' px='8'>
+                                <Text as='h3' fontSize={{ base: '2rem', sm: '1.5rem' }} color='app.primary' fontWeight='bold'>
+                                    {currentBatch?.name?.toUpperCase()} - <Text as='span' color='white' fontWeight='thin'>{currencyFormatter.format(currentBatch?.price)}</Text>
+                                </Text>
+                                <Box rounded='lg' bgColor='app.primary' p='2'>
+                                    <Image
+                                        alt='Qr code'
+                                        src={QrCode}
+                                        width={isWideVersion ? 10 : 8}
+                                        height={isWideVersion ? 10 : 8}
+                                        type='rem'
+                                    />
+                                </Box>
+                                <ClipboardInput
+                                    name='pixKey'
+                                    value='exorcenicas@gmail.com'
+                                    label='Chave Pix'
+                                    successTitle='Chave PIX copiada!'
+                                    labelProps={{
+                                        textAlign: 'center',
+                                    }}
+
                                 />
-                            </Box>
-                            <ClipboardInput
-                                name='pixKey'
-                                value='exorcenicas@gmail.com'
-                                label='Chave Pix'
-                                successTitle='Chave PIX copiada!'
-                                labelProps={{
-                                    textAlign: 'center',
-                                }}
-
+                            </VStack>
+                            <FileInput
+                                label='Comprovante'
+                                px={isWideVersion ? '8' : '2'}
+                                onCallback={setReceiptId}
+                                error={receiptError}
+                                isDisabled={isSubmitting || isLoading}
                             />
                         </VStack>
-                        <FileInput
-                            label='Comprovante'
-                            px={isWideVersion ? '8' : '2'}
-                            onCallback={setReceiptId}
-                            error={receiptError}
-                        />
-                    </VStack>
-                    <Center>
-                        <PrimaryButton
-                            borderRadius='0px 0px 25px 25px'
-                            py='6'
-                            mb='6'
-                            mt='12'
-                            onClick={handleSubmit(onSubmit)}
-                            isLoading={isSubmitting}
-                        >
-                            CONFIRMAR
-                        </PrimaryButton>
-                    </Center>
+                        <Center>
+                            <PrimaryButton
+                                borderRadius='0px 0px 25px 25px'
+                                py='6'
+                                mb='6'
+                                mt='12'
+                                onClick={handleSubmit(onSubmit)}
+                                isDisabled={isLoading}
+                                isLoading={isSubmitting}
+                            >
+                                CONFIRMAR
+                            </PrimaryButton>
+                        </Center>
+                    </ContainerWithLoading>
                 </ModalBody>
 
             </ModalContent>
