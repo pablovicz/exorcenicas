@@ -24,8 +24,8 @@ export function Header() {
     return (
         <Center as='header' w='full' my='6'>
             <Image
-                width={isWideVersion ? 18.75 : isTabletVersion ? 15.5 : 8.5}
-                height={isWideVersion ? 18.75 : isTabletVersion ? 15.5 : 8.5}
+                width={isWideVersion ? 18.75 : isTabletVersion ? 15.5 : 11}
+                height={isWideVersion ? 18.75 : isTabletVersion ? 15.5 : 11}
                 type='rem'
                 alt='Exorcênicas Logo'
                 src={Logo}
