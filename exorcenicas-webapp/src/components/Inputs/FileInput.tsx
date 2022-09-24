@@ -54,6 +54,9 @@ export function FileInput({ name, label, labelProps, onCallback, error, ...rest 
             }
 
         } catch (err) {
+            setFile([]);
+            setSubmittedData({} as FileUploadResponse);
+            onCallback('');
             toast({
                 status: 'error',
                 duration: 10000,

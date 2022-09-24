@@ -149,9 +149,7 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                 if (!receiptId) {
                     setReceiptError('Por favor, insira seu comprovante.');
                 } else {
-
                     setIsSubmitting(true);
-
                     const response = await createPayingPerson({
                         variables: {
                             name: values.name,
@@ -162,8 +160,7 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                             receiptId: receiptId
                         }
                     }).then(async () => {
-                        if (!!currentBatch?.soldAmount) {
-                            const newSoldAmount = currentBatch?.soldAmount + 1;
+                            const newSoldAmount = currentBatch?.soldAmount as number + 1;
                             await updateBatchMutation({
                                 variables: {
                                     id: currentBatch.id,
@@ -180,7 +177,6 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                                     }).then(() => { }).catch(err => { });
                                 }
                             }).catch(() => { });
-                        }
                         setIsSubmitting(false);
                         toast({
                             status: 'success',
