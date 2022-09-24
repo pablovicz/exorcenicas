@@ -33,6 +33,7 @@ export function Footer() {
                         fontSize='1.25rem'
                         textAlign='center'
                         fontWeight='thin'
+                        _hover={{fontWeight: 'bold'}}
                         lineHeight='120%'
                     >
                         Vila Ida
@@ -52,6 +53,7 @@ export function Footer() {
                         mt='4'
                         fontSize='1.25rem'
                         fontWeight='thin'
+                        _hover={{fontWeight: 'bold'}}
                         textAlign='center'
                         lineHeight='120%'
                     >
