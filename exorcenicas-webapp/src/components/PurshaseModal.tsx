@@ -335,7 +335,7 @@ export function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
                                 />
                             </VStack>
                             <FileInput
-                                label='Comprovante'
+                                label='Comprovante de Pagamento'
                                 px={isWideVersion ? '8' : '2'}
                                 onCallback={setReceiptId}
                                 error={receiptError}
