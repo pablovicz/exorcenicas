@@ -124,7 +124,7 @@ export function HomePage() {
                                         borderWidth='1px'
                                         borderStyle='solid'
                                         borderColor='app.primary'
-                                        minW='200px'
+                                        minW='250px'
                                         rounded='xl'
                                         bgColor='gray.900'
                                         px='4'
