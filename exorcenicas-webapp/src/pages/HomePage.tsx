@@ -138,9 +138,10 @@ export function HomePage() {
                                                 textDecoration={!batch.active && batch.soldAmount === batch.amount ? 'line-through' : undefined}
                                                 color={batch.active && batch.soldAmount === batch.amount ? 'gray.600' : 'app.primary'}
                                             >
-                                                {batch.name?.toUpperCase()} (<Text fontWeight='regular' as='span' color={!batch.active && batch.amount !== batch.soldAmount ? 'gray.600' : 'white'}>
+                                                {batch.name?.toUpperCase()} 
+                                                {/* (<Text fontWeight='regular' as='span' color={!batch.active && batch.amount !== batch.soldAmount ? 'gray.600' : 'white'}>
                                                     {batch.soldAmount}/{batch.amount}
-                                                </Text>)
+                                                </Text>) */}
                                             </Text>
                                         </HStack>
                                         {batch.active || batch.amount === batch.soldAmount ? (
