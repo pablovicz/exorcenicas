@@ -113,7 +113,7 @@ export function HomePage() {
                     <Header />
                     <Information />
                 </VStack>
-                <VStack spacing='12'>
+                {/* <VStack spacing='12'>
                     <ContainerWithLoading isLoading={loading} title='Carregando...' isLoadingError={!!error} loadingErrorMessage='Ops! Não conseguimos carregar os dados.'>
                         <VStack spacing='8'>
                             {data?.batches?.map(batch => (
@@ -139,9 +139,6 @@ export function HomePage() {
                                                 color={batch.active && batch.soldAmount === batch.amount ? 'gray.600' : 'app.primary'}
                                             >
                                                 {batch.name?.toUpperCase()} 
-                                                {/* (<Text fontWeight='regular' as='span' color={!batch.active && batch.amount !== batch.soldAmount ? 'gray.600' : 'white'}>
-                                                    {batch.soldAmount}/{batch.amount}
-                                                </Text>) */}
                                             </Text>
                                         </HStack>
                                         {batch.active || batch.amount === batch.soldAmount ? (
@@ -185,7 +182,7 @@ export function HomePage() {
                             </Center>
                         </RenderByCondition>
                     </ContainerWithLoading>
-                </VStack>
+                </VStack> */}
                 <Footer />
                 <PurchaseModal isOpen={isOpen} onClose={handleModalClose} />
             </Flex>

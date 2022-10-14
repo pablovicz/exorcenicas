@@ -11,7 +11,7 @@ export function Information() {
                 Você está preparado para uma festa de arrepiar?
             </Text>
             <Text as='span' fontSize={{base: '1.25rem', sm: '1.2rem'}}fontWeight='thin' textAlign='center' w='100%' px='4' maxW='600px'>
-                Então nos vemos dia <Text as='span' fontWeight='bold'>14/10 </Text>, no <Text as='span' fontWeight='bold'>Vila Ida</Text>, a partir das <Text as='span' fontWeight='bold'>21h</Text>!
+                Então nos vemos <Text as='span' fontWeight='bold' color='app.primary'>HOJE </Text>, no <Text as='span' fontWeight='bold' color='app.primary'>Vila Ida</Text>, a partir das <Text as='span' fontWeight='bold' color='app.primary'>21h</Text>!
                 <br />
                 Fique ligado em nosso Instagram  <Link
                     href={`https://www.instagram.com/exorcenicas/?hl=pt-br`}
